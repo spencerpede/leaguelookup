@@ -1274,6 +1274,7 @@ function renderTabs() {
     <div class="sidebar-section">Browse</div>
     ${tabBtn("home", "All sports")}
     ${tabBtn("map", "Map view")}
+    ${tabBtn("operators", "Operators")}
     <div class="sidebar-section">Sports</div>
     ${sports.map(s => tabBtn(`sport/${s}`, SPORT_META[s].label, counts[s])).join("")}
   `;
