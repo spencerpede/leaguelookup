@@ -238,21 +238,31 @@
   .back-link:hover { color: var(--accent); }
 
   .filter-bar {
-    display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
-    margin-bottom: 14px; padding: 10px 12px;
+    display: flex; gap: 14px 22px; flex-wrap: wrap; align-items: flex-start;
+    margin-bottom: 14px; padding: 12px 14px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
   }
-  /* Sport-page filter dropdown buttons */
-  .filter-bar details.filter-dd { flex-shrink: 0; }
-  .filter-bar details.filter-dd summary {
-    padding: 6px 26px 6px 12px;
-    font-weight: 500;
+  .filter-bar .filter-group-h {
+    display: flex; flex-direction: column; gap: 4px;
   }
-  .filter-bar details.filter-dd.priority summary {
-    border-color: var(--accent);
-    color: var(--accent);
+  .filter-bar .filter-group-h label {
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    margin-bottom: 1px;
+  }
+  .filter-bar .filter-group-h.priority label { color: var(--accent); }
+  .filter-bar .chip-row { gap: 4px; }
+  .filter-bar .chip {
+    padding: 3px 9px;
+    font-size: 12px;
+  }
+  .filter-bar details.filter-dd summary {
+    padding: 4px 22px 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
   }
   .filter-group-h { display: flex; flex-direction: column; gap: 5px; }
   .filter-group-h label {
