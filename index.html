@@ -2001,7 +2001,9 @@ function buildSportFilters(sportId, allForSport) {
                   key === "area" ? ["minneapolis","stpaul","west-suburbs","south-suburbs","north-suburbs","east-suburbs","outer-metro"] :
                   key === "teamSize" ? ["singles","doubles","2v2","3v3","4v4","5v5","6v6","7v7","11v11","11 on field","5 + goalie","4-person","10 on field"] :
                   key === "surface" ? ["sand","grass","hardcourt","turf","ice","outdoor court","indoor"] : null;
-    const sorted = order ? [...order.filter(o => opts.includes(o)), ...opts.filter(o => !order.includes(o))] : opts;
+    const sorted = order
+      ? [...order.filter(o => opts.includes(o)), ...opts.filter(o => !order.includes(o))]
+      : [...opts].sort((a, b) => a.localeCompare(b));
 
     // Operator filter has too many values — keep it as a dropdown
     if (key === "operator") {
