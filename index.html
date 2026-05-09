@@ -381,6 +381,37 @@
     position: absolute;
   }
 
+  .operator-list { display: flex; flex-direction: column; gap: 8px; }
+  .op-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+    transition: border-color .12s ease, background .12s ease;
+  }
+  .op-card:hover { border-color: var(--border-strong); background: #fcfcfa; }
+  .op-main { min-width: 0; }
+  .op-card h3 { margin: 0 0 4px; font-size: 16px; font-weight: 650; letter-spacing: -0.005em; }
+  .op-meta {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    font-size: 13px; color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .op-meta strong { color: var(--ink); font-weight: 600; }
+  .op-meta .sep { color: var(--ink-faint); }
+  .op-sports {
+    font-size: 12.5px; color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  @media (max-width: 880px) {
+    .op-card { grid-template-columns: 1fr; }
+    .op-card .btn-primary { justify-self: flex-start; }
+  }
+
   .empty {
     text-align: center; padding: 50px 20px;
     color: var(--ink-soft);
