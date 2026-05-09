@@ -1613,6 +1613,7 @@ function sessionMatches(s) {
   if (f.price.size && !f.price.has(priceBucket(s.price))) return false;
   if (f.teamSize.size && (!s.teamSize || !f.teamSize.has(s.teamSize))) return false;
   if (f.surface.size && (!s.surface || !f.surface.has(s.surface))) return false;
+  if (f.operator && f.operator.size && !f.operator.has(s.operator)) return false;
   if (state.search) {
     const q = state.search.toLowerCase();
     const hay = [s.name, s.operator, VENUES[s.venueId].name, s.sport].join(" ").toLowerCase();
