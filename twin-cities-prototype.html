@@ -4,20 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>League Lookup — adult sports leagues, Twin Cities metro</title>
-<meta name="description" content="Every adult sports league across the Twin Cities and 50 miles around — pick a sport, filter, find a league. Free, no signup, no ads." />
-
-<!-- Open Graph (link previews on iMessage, Slack, Twitter, Facebook) -->
-<meta property="og:type" content="website" />
-<meta property="og:title" content="League Lookup — adult sports leagues, Twin Cities + 50mi" />
-<meta property="og:description" content="Every adult sports league across the Twin Cities and 50 miles around — pick a sport, filter, find a league. Free, no signup, no ads." />
-<meta property="og:url" content="https://leaguelookup.org" />
-<meta property="og:site_name" content="League Lookup" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="League Lookup — Twin Cities adult sports leagues" />
-<meta name="twitter:description" content="Find your adult rec league. Free, no signup, no ads." />
-
-<!-- Favicon (volleyball emoji as inline SVG) -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏐%3C/text%3E%3C/svg%3E" />
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -26,18 +12,18 @@
 
 <style>
   :root {
-    --bg: #f8fafc;
+    --bg: #f7f7f5;
     --surface: #ffffff;
-    --ink: #0f172a;
-    --ink-soft: #475569;
-    --ink-faint: #94a3b8;
-    --border: #e2e8f0;
-    --border-strong: #cbd5e1;
-    --accent: #2563eb;
-    --accent-soft: #dbeafe;
-    --green: #15803d;
-    --amber: #b45309;
-    --shadow: 0 1px 2px rgba(15,23,42,0.04), 0 4px 12px rgba(15,23,42,0.04);
+    --ink: #1a1a1a;
+    --ink-soft: #5a5a5a;
+    --ink-faint: #8a8a8a;
+    --border: #e6e6e1;
+    --border-strong: #d0d0c8;
+    --accent: #1f5f8b;
+    --accent-soft: #e8f0f7;
+    --green: #2c7a3e;
+    --amber: #b87a14;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
     --radius: 10px;
     --radius-sm: 6px;
   }
@@ -65,19 +51,14 @@
     padding: 14px 0;
     border-bottom: 1px solid var(--border);
   }
-  .brand {
-    cursor: pointer; flex-shrink: 0; line-height: 1.1;
-    display: inline-flex; align-items: center; gap: 10px;
-  }
-  .brand-mark { display: inline-flex; flex-shrink: 0; }
-  .brand-text { display: inline-flex; flex-direction: column; }
+  .brand { cursor: pointer; flex-shrink: 0; line-height: 1.1; }
   .brand-name {
-    font-size: 21px; font-weight: 750; letter-spacing: -0.025em; color: var(--ink);
+    font-size: 22px; font-weight: 750; letter-spacing: -0.025em; color: var(--ink);
   }
   .brand-name .accent { color: var(--accent); }
   .brand-sub {
     font-size: 11.5px; color: var(--ink-soft);
-    letter-spacing: 0.01em; margin-top: 2px;
+    letter-spacing: 0.01em; margin-top: 1px;
   }
   .search { flex: 1; max-width: 480px; position: relative; }
   .search input {
@@ -108,78 +89,7 @@
   }
   nav.tabs button.tab.active .pill { background: var(--accent-soft); color: var(--accent); }
 
-  /* Header right-side nav (Submit / Feedback / Tip) */
-  .header-nav {
-    display: flex; gap: 14px; align-items: center;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-  .header-nav a {
-    font-size: 13px; color: var(--ink-soft); cursor: pointer;
-    white-space: nowrap;
-    padding: 4px 0;
-  }
-  .header-nav a:hover { color: var(--accent); text-decoration: none; }
-  .header-nav .tip-btn {
-    color: var(--accent); font-weight: 600;
-    border: 1px solid var(--accent);
-    border-radius: var(--radius-sm);
-    padding: 4px 12px;
-  }
-  .header-nav .tip-btn:hover { background: var(--accent-soft); }
-
-  /* Layout: left sidebar with sports + main content */
-  .layout {
-    max-width: 1280px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 0;
-    align-items: start;
-  }
-  aside.sidebar {
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    padding: 18px 12px;
-    position: sticky;
-    top: 65px;
-    align-self: start;
-    max-height: calc(100vh - 65px);
-    overflow-y: auto;
-  }
-  aside.sidebar .sidebar-section {
-    font-size: 10.5px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--ink-faint);
-    padding: 8px 12px 6px;
-    margin-top: 6px;
-  }
-  aside.sidebar .sidebar-section:first-child { margin-top: 0; }
-  aside.sidebar button.tab {
-    display: flex; align-items: center;
-    width: 100%; text-align: left;
-    padding: 7px 12px;
-    color: var(--ink-soft);
-    font-size: 13.5px; font-weight: 500;
-    border-radius: var(--radius-sm);
-    transition: all .12s ease;
-    margin-bottom: 1px;
-  }
-  aside.sidebar button.tab:hover { background: var(--bg); color: var(--ink); }
-  aside.sidebar button.tab.active {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 600;
-  }
-  aside.sidebar button.tab .pill {
-    margin-left: auto;
-    background: var(--bg); color: var(--ink-faint);
-    font-size: 10.5px; padding: 1px 6px;
-    border-radius: 999px; font-weight: 600;
-  }
-  aside.sidebar button.tab.active .pill { background: var(--surface); color: var(--accent); }
-
-  main { padding: 24px 28px; min-width: 0; }
+  main { max-width: 1280px; margin: 0 auto; padding: 24px; }
 
   /* Home */
   .hero { text-align: center; margin: 16px 0 28px; }
@@ -360,10 +270,9 @@
     text-transform: uppercase; letter-spacing: 0.04em;
     flex-shrink: 0;
   }
-  .reg-open { background: #dcfce7; color: var(--green); }
-  .reg-soon { background: #fef3c7; color: var(--amber); }
-  .reg-full { background: #fee2e2; color: #b91c1c; }
-  .reg-closed { background: #f1f5f9; color: var(--ink-faint); }
+  .reg-open { background: #e8f4ec; color: var(--green); }
+  .reg-soon { background: #fdf3e0; color: var(--amber); }
+  .reg-closed { background: #f0f0ec; color: var(--ink-faint); }
   .reg-pill .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
   .btn-primary {
     display: inline-flex; align-items: center; gap: 4px;
@@ -496,45 +405,10 @@
     background: var(--surface);
   }
   footer.site-footer a { color: var(--ink-soft); }
-  .footer-nav {
-    display: flex; justify-content: center;
-    gap: 24px; flex-wrap: wrap;
-    margin-bottom: 18px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
-  }
-  .footer-nav a {
-    color: var(--ink) !important;
-    font-weight: 600; font-size: 14px;
-    cursor: pointer;
-  }
-  .footer-nav a:hover { color: var(--accent) !important; }
 
   @media (max-width: 880px) {
     main { padding: 14px; }
     .top-row { flex-direction: column; align-items: stretch; gap: 10px; padding: 10px 0; }
-    .header-nav { gap: 10px; justify-content: flex-end; }
-    .header-nav a { font-size: 12px; }
-    .layout { grid-template-columns: 1fr; }
-    aside.sidebar {
-      position: static;
-      max-height: none;
-      border-right: 0;
-      border-bottom: 1px solid var(--border);
-      padding: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      overflow-x: auto;
-    }
-    aside.sidebar .sidebar-section { display: none; }
-    aside.sidebar button.tab {
-      width: auto; padding: 6px 12px;
-      border: 1px solid var(--border-strong);
-      border-radius: 999px;
-      font-size: 13px;
-    }
-    aside.sidebar button.tab .pill { margin-left: 6px; }
     .search { max-width: 100%; }
     .filter-bar { padding: 10px; gap: 10px; }
     .session { grid-template-columns: 1fr; gap: 8px; padding: 12px; }
@@ -557,50 +431,26 @@
   <div class="site-inner">
     <div class="top-row">
       <div class="brand" data-route="home">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" width="34" height="34" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="1" width="30" height="30" rx="8" fill="#2563eb"/>
-            <path d="M9.5 8 L9.5 21.5 L18 21.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-            <circle cx="22" cy="11.5" r="3.6" stroke="#fff" stroke-width="2.4" fill="none"/>
-            <line x1="24.5" y1="14" x2="26.5" y2="16" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <span class="brand-text">
-          <span class="brand-name">League <span class="accent">Lookup</span></span>
-          <span class="brand-sub">Adult sports leagues · Twin Cities</span>
-        </span>
+        <div class="brand-name">League <span class="accent">Lookup</span></div>
+        <div class="brand-sub">Adult sports leagues · Twin Cities + 50mi</div>
       </div>
       <div class="search">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input id="search" type="text" placeholder="Search sports, venues, operators…" autocomplete="off" />
       </div>
-      <nav class="header-nav">
-        <a data-route="about">About</a>
-        <a data-route="submit">Submit a league</a>
-        <a data-route="feedback">Feedback</a>
-        <a data-route="tip" class="tip-btn">Leave a tip</a>
-      </nav>
     </div>
+    <nav class="tabs" id="tabs"></nav>
   </div>
 </header>
 
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main id="app"></main>
-</div>
+<main id="app"></main>
 
 <footer class="site-footer">
-  <div class="footer-nav">
-    <a data-route="about">About</a>
-    <a data-route="submit">Submit a league</a>
-    <a data-route="feedback">Feedback</a>
-    <a data-route="tip">Leave a tip</a>
-  </div>
   <p>Built and maintained by a person who actually plays in these leagues. No ads, no signups, no nonsense.<br>
-  Questions, corrections, missing leagues? Email <a href="mailto:hello@leaguelookup.org">hello@leaguelookup.org</a>.</p>
+  Questions, corrections, missing leagues? Email <a href="mailto:hello@example.com">hello@example.com</a>.</p>
   <p style="margin-top:14px;font-size:11.5px;color:var(--ink-faint);">
     "Register" links go to the operator's website — the specific league page may be a click or two deeper.<br>
-    League Lookup prototype v0.5 · session details are illustrative — verify dates and registration with each operator before signing up.
+    League Lookup prototype v0.4 · session details are illustrative — verify dates and registration with each operator before signing up.
   </p>
 </footer>
 
@@ -662,6 +512,18 @@ const VENUES = {
    ============================================================ */
 const SESSIONS = [
   /* -------- VOLLEYBALL -------- */
+  { id:"v01", sport:"volleyball", operator:"Volo Sports", name:"Sand Volleyball — Coed",
+    venueId:"bdemakaska", day:"tue", time:"6:30 / 7:30 / 8:30 PM",
+    startDate:"2026-06-09", endDate:"2026-08-11", season:"summer",
+    format:"coed", skill:"recreational", teamSize:"6v6", surface:"sand", leagueSize:"24 teams",
+    price:89, priceUnit:"/player", setting:"outdoor",
+    status:"open", url:"https://www.volosports.com/discover/twin-cities" },
+  { id:"v02", sport:"volleyball", operator:"Volo Sports", name:"Indoor Coed",
+    venueId:"northstarsoccer", day:"wed", time:"7 / 8 / 9 PM",
+    startDate:"2026-09-23", endDate:"2026-12-09", season:"fall",
+    format:"coed", skill:"recreational", teamSize:"4v4", surface:"hardcourt", leagueSize:"16 teams",
+    price:79, priceUnit:"/player", setting:"indoor",
+    status:"soon", url:"https://www.volosports.com/discover/twin-cities" },
   { id:"v03", sport:"volleyball", operator:"MSSC", name:"Sand Volleyball",
     venueId:"brynmawr", day:"wed", time:"6:30 / 7:30 / 8:30 PM",
     startDate:"2026-06-03", endDate:"2026-08-12", season:"summer",
@@ -716,6 +578,19 @@ const SESSIONS = [
     format:"coed", skill:"recreational", teamSize:"4v4", surface:"hardcourt", leagueSize:"10 teams",
     price:60, priceUnit:"/player", setting:"indoor",
     status:"soon", url:"https://www.ci.stillwater.mn.us/" },
+  // New format variants —————————————————————————————
+  { id:"v12", sport:"volleyball", operator:"Volo Sports", name:"Doubles Sand — Open",
+    venueId:"bdemakaska", day:"thu", time:"6:00 / 7:00 / 8:00 PM",
+    startDate:"2026-06-11", endDate:"2026-08-13", season:"summer",
+    format:"open", skill:"intermediate", teamSize:"2v2", surface:"sand", leagueSize:"32 pairs",
+    price:55, priceUnit:"/player", setting:"outdoor",
+    status:"open", url:"https://www.volosports.com/discover/twin-cities" },
+  { id:"v13", sport:"volleyball", operator:"Volo Sports", name:"Triples Sand — Coed",
+    venueId:"brynmawr", day:"mon", time:"6:30 / 7:30 PM",
+    startDate:"2026-06-08", endDate:"2026-08-10", season:"summer",
+    format:"coed", skill:"recreational", teamSize:"3v3", surface:"sand", leagueSize:"20 teams",
+    price:65, priceUnit:"/player", setting:"outdoor",
+    status:"open", url:"https://www.volosports.com/discover/twin-cities" },
   { id:"v14", sport:"volleyball", operator:"Powderhorn Grass League", name:"Grass Volleyball",
     venueId:"powderhornpark", day:"sun", time:"11 AM / 1 PM",
     startDate:"2026-06-07", endDate:"2026-08-23", season:"summer",
@@ -734,7 +609,7 @@ const SESSIONS = [
     startDate:"2026-05-11", endDate:"2026-08-03", season:"summer",
     format:"coed", skill:"recreational", teamSize:"6v6", surface:"sand", leagueSize:"60+ teams",
     price:80, priceUnit:"/player", setting:"outdoor",
-    status:"full", url:"https://www.lfvball.com/" },
+    status:"open", url:"https://www.lfvball.com/" },
   { id:"v17", sport:"volleyball", operator:"LakeFront Volleyball @ Lord Fletcher's", name:"Coed 4's Sand — Lord Fletcher's",
     venueId:"lordfletchers", day:"thu", time:"6 / 7 / 8 PM",
     startDate:"2026-05-14", endDate:"2026-08-06", season:"summer",
@@ -763,6 +638,18 @@ const SESSIONS = [
     status:"open", url:"https://www.bunnysmn.com/" },
 
   /* -------- KICKBALL -------- */
+  { id:"k01", sport:"kickball", operator:"Volo Sports", name:"Sunday Coed Kickball",
+    venueId:"shamrockpark", day:"sun", time:"11 AM / 12 / 1 / 2 PM",
+    startDate:"2026-06-07", endDate:"2026-08-16", season:"summer",
+    format:"coed", skill:"recreational", teamSize:"11 on field", surface:"grass", leagueSize:"32 teams",
+    price:79, priceUnit:"/player", setting:"outdoor",
+    status:"open", url:"https://www.volosports.com/discover/twin-cities" },
+  { id:"k02", sport:"kickball", operator:"Volo Sports", name:"Thursday Night Kickball",
+    venueId:"powderhornpark", day:"thu", time:"6:30 / 7:30 / 8:30 PM",
+    startDate:"2026-06-04", endDate:"2026-08-13", season:"summer",
+    format:"coed", skill:"recreational", teamSize:"11 on field", surface:"grass", leagueSize:"24 teams",
+    price:79, priceUnit:"/player", setting:"outdoor",
+    status:"open", url:"https://www.volosports.com/discover/twin-cities" },
   { id:"k03", sport:"kickball", operator:"MSSC", name:"Tuesday Coed Kickball",
     venueId:"wabunpark", day:"tue", time:"6:30 / 7:30 / 8:30 PM",
     startDate:"2026-06-02", endDate:"2026-08-11", season:"summer",
@@ -807,6 +694,12 @@ const SESSIONS = [
     format:"mens", skill:"competitive", teamSize:"10 on field", surface:"grass", style:"slow-pitch", leagueSize:"14 teams",
     price:475, priceUnit:"/team", setting:"outdoor",
     status:"open", url:"https://www.bloomingtonmn.gov/sports/adult" },
+  { id:"s05", sport:"softball", operator:"Volo Sports", name:"Thursday Coed Softball",
+    venueId:"brynmawr", day:"thu", time:"6:30 / 7:30 / 8:30 PM",
+    startDate:"2026-06-04", endDate:"2026-08-13", season:"summer",
+    format:"coed", skill:"recreational", teamSize:"10 on field", surface:"grass", style:"slow-pitch", leagueSize:"16 teams",
+    price:89, priceUnit:"/player", setting:"outdoor",
+    status:"open", url:"https://www.volosports.com/discover/twin-cities" },
   { id:"s06", sport:"softball", operator:"Lakeville Adult Sports", name:"Coed Slow-Pitch",
     venueId:"lakevillehs", day:"mon", time:"6:30 / 7:45 PM",
     startDate:"2026-05-11", endDate:"2026-08-10", season:"summer",
@@ -839,6 +732,12 @@ const SESSIONS = [
     format:"coed", skill:"recreational", teamSize:"7v7", surface:"turf", leagueSize:"20 teams",
     price:110, priceUnit:"/player", setting:"indoor",
     status:"soon", url:"https://www.minnesotasoccer.com/" },
+  { id:"so03", sport:"soccer", operator:"Volo Sports", name:"Tuesday Coed Outdoor",
+    venueId:"brynmawr", day:"tue", time:"6:30 / 7:30 / 8:30 PM",
+    startDate:"2026-06-02", endDate:"2026-08-11", season:"summer",
+    format:"coed", skill:"recreational", teamSize:"7v7", surface:"grass", leagueSize:"16 teams",
+    price:89, priceUnit:"/player", setting:"outdoor",
+    status:"open", url:"https://www.volosports.com/discover/twin-cities" },
   { id:"so04", sport:"soccer", operator:"MPRB", name:"Saturday Open Adult",
     venueId:"wirthpark", day:"sat", time:"9 / 11 AM / 1 PM",
     startDate:"2026-06-06", endDate:"2026-08-15", season:"summer",
@@ -884,12 +783,25 @@ const SESSIONS = [
     format:"coed", skill:"recreational", teamSize:"5v5", surface:"hardcourt", leagueSize:"6 teams",
     price:425, priceUnit:"/team", setting:"indoor",
     status:"soon", url:"https://www.edinamn.gov/468/Adult-Sports" },
+  { id:"b04", sport:"basketball", operator:"Volo Sports", name:"Monday Coed",
+    venueId:"ymcastpaul", day:"mon", time:"7 / 8 / 9 PM",
+    startDate:"2026-10-05", endDate:"2026-12-14", season:"fall",
+    format:"coed", skill:"recreational", teamSize:"5v5", surface:"hardcourt", leagueSize:"10 teams",
+    price:79, priceUnit:"/player", setting:"indoor",
+    status:"soon", url:"https://www.volosports.com/discover/twin-cities" },
   { id:"b05", sport:"basketball", operator:"Forest Lake Rec", name:"Tuesday Men's",
     venueId:"forestlakecc", day:"tue", time:"7 / 8:15 PM",
     startDate:"2026-10-13", endDate:"2026-12-22", season:"fall",
     format:"mens", skill:"recreational", teamSize:"5v5", surface:"hardcourt", leagueSize:"6 teams",
     price:295, priceUnit:"/team", setting:"indoor",
     status:"soon", url:"https://www.ci.forest-lake.mn.us/" },
+  // 3v3 variant ——————————————————————
+  { id:"b06", sport:"basketball", operator:"Volo Sports", name:"Sunday 3v3 — Coed",
+    venueId:"ymcadowntown", day:"sun", time:"4 / 5 / 6 PM",
+    startDate:"2026-10-04", endDate:"2026-12-13", season:"fall",
+    format:"coed", skill:"recreational", teamSize:"3v3", surface:"hardcourt", leagueSize:"24 teams",
+    price:65, priceUnit:"/player", setting:"indoor",
+    status:"soon", url:"https://www.volosports.com/discover/twin-cities" },
 
   /* -------- HOCKEY -------- */
   { id:"h01", sport:"hockey", operator:"Hopkins Pavilion", name:"D-League Adult",
@@ -1108,7 +1020,7 @@ const AREA_LABELS = {
 };
 const DAY_LABELS = { mon:"Mon", tue:"Tue", wed:"Wed", thu:"Thu", fri:"Fri", sat:"Sat", sun:"Sun", daily:"Daily" };
 const FORMAT_LABELS = { coed:"Coed", mens:"Men's", womens:"Women's", open:"Open" };
-const STATUS_LABELS = { open:"Registration open", soon:"Opening soon", full:"Full / wait list", closed:"Closed" };
+const STATUS_LABELS = { open:"Open now", soon:"Opening soon", closed:"Closed" };
 const SEASON_LABELS = { spring:"Spring", summer:"Summer", fall:"Fall", winter:"Winter", "year-round":"Year-round" };
 const SURFACE_LABELS = { sand:"Sand", grass:"Grass", hardcourt:"Hardcourt", turf:"Turf", ice:"Ice", "outdoor court":"Outdoor court", indoor:"Indoor" };
 const PRICE_BUCKETS = [
@@ -1154,9 +1066,8 @@ function priceBucket(p) {
   return "over300";
 }
 function statusPill(status) {
-  if (status === "open") return `<span class="reg-pill reg-open"><span class="dot"></span>Registration open</span>`;
+  if (status === "open") return `<span class="reg-pill reg-open"><span class="dot"></span>Open</span>`;
   if (status === "soon") return `<span class="reg-pill reg-soon"><span class="dot"></span>Opens soon</span>`;
-  if (status === "full") return `<span class="reg-pill reg-full"><span class="dot"></span>Full / wait list</span>`;
   return `<span class="reg-pill reg-closed">Closed</span>`;
 }
 // Filter out leagues whose end date has passed — auto-cleanup
@@ -1193,7 +1104,6 @@ function parseHash() {
   const h = location.hash.replace(/^#/, "");
   if (!h || h === "home") return { view: "home" };
   if (h === "map") return { view: "map" };
-  if (h === "about") return { view: "about" };
   if (h === "submit") return { view: "submit" };
   if (h === "feedback") return { view: "feedback" };
   if (h === "tip") return { view: "tip" };
@@ -1215,7 +1125,6 @@ function render() {
   if (r.view === "home") renderHome();
   else if (r.view === "sport") renderSport(r.sport);
   else if (r.view === "map") renderGlobalMap();
-  else if (r.view === "about") renderAboutPage();
   else if (r.view === "submit") renderSubmitLeaguePage();
   else if (r.view === "feedback") renderFeedbackPage();
   else if (r.view === "tip") renderTipJarPage();
@@ -1228,21 +1137,18 @@ function renderTabs() {
   const counts = sportCounts();
   const sports = Object.keys(SPORT_META).filter(s => counts[s])
     .sort((a,b) => counts[b] - counts[a]);
+  const tabs = [
+    { id: "home", label: "All sports" },
+    ...sports.map(s => ({ id: `sport/${s}`, label: SPORT_META[s].label, count: counts[s] })),
+    { id: "map", label: "🗺 Map" }
+  ];
   const cur = state.view === "sport" ? `sport/${state.sport}` : state.view;
-
-  const tabBtn = (id, label, count) =>
-    `<button class="tab ${id === cur ? "active" : ""}" data-route="${id}">
-       <span>${label}</span>${count != null ? `<span class="pill">${count}</span>` : ""}
-     </button>`;
-
-  $("#sidebar").innerHTML = `
-    <div class="sidebar-section">Browse</div>
-    ${tabBtn("home", "All sports")}
-    ${tabBtn("map", "Map view")}
-    <div class="sidebar-section">Sports</div>
-    ${sports.map(s => tabBtn(`sport/${s}`, `${SPORT_META[s].icon} ${SPORT_META[s].label}`, counts[s])).join("")}
-  `;
-  $$("#sidebar .tab").forEach(b => b.addEventListener("click", () => navigate(b.dataset.route)));
+  $("#tabs").innerHTML = tabs.map(t => `
+    <button class="tab ${t.id === cur ? "active" : ""}" data-route="${t.id}">
+      ${t.label}${t.count != null ? `<span class="pill">${t.count}</span>` : ""}
+    </button>
+  `).join("");
+  $$("#tabs .tab").forEach(b => b.addEventListener("click", () => navigate(b.dataset.route)));
 }
 
 /* ============================================================
@@ -1384,7 +1290,9 @@ function buildSportFilters(sportId, allForSport) {
     filterHtml("teamSize", null, "Team size / format"),
     filterHtml("surface", SURFACE_LABELS, "Surface"),
     filterHtml("status", STATUS_LABELS, "Registration"),
+    filterHtml("price", PRICE_LABELS, "Price"),
     filterHtml("season", SEASON_LABELS, "Season"),
+    filterHtml("area", AREA_LABELS, "Area"),
     filterHtml("format", FORMAT_LABELS, "Coed/Men's/Women's"),
     filterHtml("skill", { "all-levels":"All levels", beginner:"Beginner", recreational:"Rec", intermediate:"Intermediate", competitive:"Competitive" }, "Skill"),
     filterHtml("setting", { indoor:"Indoor", outdoor:"Outdoor" }, "Setting"),
@@ -1464,15 +1372,6 @@ function renderSportResults(sportId, all) {
   c.innerHTML = `<div class="session-list">${filtered.map(s => {
     const v = VENUES[s.venueId];
     const dayDisplay = s.day === "daily" ? "Daily" : (DAY_LABELS[s.day] || s.day).toUpperCase();
-
-    // Title pattern: "League name — Location". Skip if name already references the venue.
-    const shortVenue = v.name
-      .replace(/\s*\([^)]*\)\s*$/, "")
-      .replace(/\s+of\s+the\s+\w+$/i, "");
-    const nameHasVenue = shortVenue.split(/\s+/)
-      .some(w => w.length > 3 && s.name.toLowerCase().includes(w.toLowerCase()));
-    const titleText = nameHasVenue ? s.name : `${s.name} — ${shortVenue}`;
-
     const tags = [
       `<span class="tag-mini">${FORMAT_LABELS[s.format] || s.format}</span>`,
       s.teamSize ? `<span class="tag-mini">${s.teamSize}</span>` : "",
@@ -1489,7 +1388,7 @@ function renderSportResults(sportId, all) {
         </div>
         <div class="what">
           <div class="what-top">
-            <h3>${titleText}</h3>
+            <h3>${s.name}</h3>
             <span class="op">· ${s.operator}</span>
             ${statusPill(s.status)}
           </div>
@@ -1609,6 +1508,14 @@ function renderGlobalMap() {
       <label>Registration</label>
       <div class="chip-row">${statusChips}</div>
     </div>
+    <div class="filter-group-h">
+      <label>Price</label>
+      <div class="chip-row">${priceChips}</div>
+    </div>
+    <div class="filter-group-h">
+      <label>Area</label>
+      <div class="chip-row">${areaChips}</div>
+    </div>
     <button class="clear-chip" id="map-clear">Clear all</button>
   `;
 
@@ -1687,7 +1594,7 @@ function drawMapMarkers(filteredSessions, titleSel, listSel) {
     const sportTags = sportsAtVenue.map(sp => `${SPORT_META[sp].icon} ${SPORT_META[sp].label}`).join(", ");
 
     const hasOpen = sessions.some(s => s.status === "open");
-    const color = hasOpen ? "#15803d" : (sessions.some(s => s.status === "soon") ? "#b45309" : "#94a3b8");
+    const color = hasOpen ? "#2c7a3e" : (sessions.some(s => s.status === "soon") ? "#b87a14" : "#8a8a8a");
 
     const icon = L.divIcon({
       className: "custom-pin",
@@ -1706,16 +1613,16 @@ function drawMapMarkers(filteredSessions, titleSel, listSel) {
 
     const popup = `
       <h4>${v.name}</h4>
-      <div style="color:#475569;font-size:12px;margin-bottom:6px;">${v.address}</div>
+      <div style="color:#5a5a5a;font-size:12px;margin-bottom:6px;">${v.address}</div>
       <div><strong>${sessions.length} league${sessions.length===1?"":"s"}:</strong> ${sportTags}</div>
       <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px;">
         ${sessions.slice(0,5).map(s => `
           <div style="font-size:12px;">
             ${SPORT_META[s.sport].icon} <a href="${s.url}" target="_blank" class="pop-link">${s.name}</a>
-            <span style="color:#94a3b8;">· ${DAY_LABELS[s.day] || s.day} ${s.time.split(" /")[0]}${s.surface ? " · " + (SURFACE_LABELS[s.surface] || s.surface) : ""}${s.teamSize ? " · " + s.teamSize : ""}</span>
+            <span style="color:#8a8a8a;">· ${DAY_LABELS[s.day] || s.day} ${s.time.split(" /")[0]}${s.surface ? " · " + (SURFACE_LABELS[s.surface] || s.surface) : ""}${s.teamSize ? " · " + s.teamSize : ""}</span>
           </div>
         `).join("")}
-        ${sessions.length > 5 ? `<div style="color:#94a3b8;font-size:11px;">+${sessions.length - 5} more</div>` : ""}
+        ${sessions.length > 5 ? `<div style="color:#8a8a8a;font-size:11px;">+${sessions.length - 5} more</div>` : ""}
       </div>
     `;
     L.marker([v.lat, v.lng], { icon }).addTo(markerLayer).bindPopup(popup);
@@ -1771,31 +1678,13 @@ function renderSubmitLeaguePage() {
       </ul>
       <p>If you're flagging incorrect info, just paste the league name and what's wrong.</p>
       <div class="page-cta">
-        <a class="btn-primary" href="mailto:hello@leaguelookup.org?subject=League%20submission%20%2F%20correction&body=League%20name%3A%20%0AOperator%3A%20%0ASport%2C%20day%2C%20time%3A%20%0AVenue%3A%20%0ARegistration%20link%3A%20%0AAnything%20else%3A%20">
+        <a class="btn-primary" href="mailto:hello@example.com?subject=League%20submission%20%2F%20correction&body=League%20name%3A%20%0AOperator%3A%20%0ASport%2C%20day%2C%20time%3A%20%0AVenue%3A%20%0ARegistration%20link%3A%20%0AAnything%20else%3A%20">
           ✉  Send via email
         </a>
         <p class="page-cta-note">Goes to the maintainer. Replies happen within a week or so.</p>
       </div>
       <h2>Frequently submitted</h2>
       <p>The leagues we hear about most often that aren't yet listed: church-run softball, neighborhood-run kickball, smaller bar leagues, and pickleball drop-in groups that don't have websites. Don't assume we already know about it.</p>
-    </div>
-  `;
-  $(".back-link").addEventListener("click", () => navigate("home"));
-}
-
-function renderAboutPage() {
-  $("#app").innerHTML = `
-    <a class="back-link" data-route="home">← All sports</a>
-    <div class="page-prose">
-      <h1>About League Lookup</h1>
-      <p>This started because I got tired of bouncing between a dozen websites every time I wanted to find a new league to play in.</p>
-      <p>There's no shortage of adult rec leagues in the Twin Cities — Volo, MSSC, the park &amp; rec departments, bar leagues, the curling clubs, suburban programs, drop-in pickleball groups. The hard part is finding them all in one place.</p>
-      <p>So I built this. It's meant to be one thing: a starting point. Pick a sport, see what's out there, click through to the operator's site to register. That's it.</p>
-      <p>I'm not running these leagues. I'm not handling payments. I'm not trying to be a registration platform. I just wanted a place where you could see all the options.</p>
-      <p style="font-size:17px;margin-top:24px;"><strong>Hope it's helpful!</strong></p>
-
-      <h2>How to help</h2>
-      <p>If you spot a league I'm missing, see incorrect info, or have an idea for how to make this more useful — there are buttons in the top-right of every page for exactly that.</p>
     </div>
   `;
   $(".back-link").addEventListener("click", () => navigate("home"));
@@ -1809,10 +1698,16 @@ function renderTipJarPage() {
       <p>League Lookup is free, ad-free, and run by one person. Hosting and the domain cost about $15–25 a month — covered out of pocket so the site stays clean.</p>
       <p>If it helped you find a league and you want to throw a few bucks at keeping it online, here are the options:</p>
       <div class="page-cta">
-        <a class="btn-primary" href="https://www.buymeacoffee.com/leaguelookup" target="_blank" rel="noopener noreferrer">
-          Buy me a coffee
+        <a class="btn-primary" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener noreferrer">
+          ☕  Buy me a coffee
         </a>
         <p class="page-cta-note">One-time tip, $3 / $5 / whatever you want. No account needed.</p>
+      </div>
+      <div class="page-cta" style="background:#f5f9f3;">
+        <a class="btn-primary" href="https://venmo.com/" target="_blank" rel="noopener noreferrer" style="background:#3D95CE;">
+          💸  Venmo: @leaguelookup
+        </a>
+        <p class="page-cta-note">If Venmo is your thing.</p>
       </div>
       <h2>What it actually goes toward</h2>
       <p>Domain ($15/year), hosting (~$0–10/month depending on traffic), the AI scrapers and monitoring tools that keep league data current (~$10–20/month). Anything beyond that is a coffee.</p>
@@ -1837,7 +1732,7 @@ function renderFeedbackPage() {
       </ul>
       <p>Vague "this is bad" feedback is also fine — it's a signal, even if not actionable on its own.</p>
       <div class="page-cta">
-        <a class="btn-primary" href="mailto:hello@leaguelookup.org?subject=League%20Lookup%20feedback&body=What%20I%20was%20trying%20to%20do%3A%20%0AWhat%20didn%27t%20work%3A%20%0AWhat%20would%20help%3A%20">
+        <a class="btn-primary" href="mailto:hello@example.com?subject=League%20Lookup%20feedback&body=What%20I%20was%20trying%20to%20do%3A%20%0AWhat%20didn%27t%20work%3A%20%0AWhat%20would%20help%3A%20">
           ✉  Send feedback via email
         </a>
         <p class="page-cta-note">Read by an actual person, usually within a week.</p>
@@ -1868,7 +1763,6 @@ $("#search").addEventListener("input", e => {
   }
 });
 $(".brand").addEventListener("click", () => navigate("home"));
-$$(".header-nav a, .footer-nav a").forEach(a => a.addEventListener("click", () => navigate(a.dataset.route)));
 window.addEventListener("hashchange", render);
 
 render();
