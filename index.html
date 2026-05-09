@@ -1737,11 +1737,36 @@ const SPORT_META = {
   bowling:     { label: "Bowling",        icon: "🎳" },
   roundnet:    { label: "Spikeball / Roundnet", icon: "" }
 };
+const METROS = {
+  "twin-cities": { name: "Twin Cities", subtitle: "Twin Cities + 50mi" },
+  "chicago":     { name: "Chicago",     subtitle: "Chicago + 50mi" },
+  "milwaukee":   { name: "Milwaukee",   subtitle: "Milwaukee + 50mi" }
+};
+const AREA_TO_METRO = {
+  // Twin Cities
+  "minneapolis": "twin-cities", "stpaul": "twin-cities",
+  "west-suburbs": "twin-cities", "south-suburbs": "twin-cities",
+  "north-suburbs": "twin-cities", "east-suburbs": "twin-cities",
+  "outer-metro": "twin-cities",
+  // Chicago
+  "chicago": "chicago", "chicago-north": "chicago",
+  "chicago-west": "chicago", "chicago-south": "chicago",
+  "chicago-suburbs": "chicago",
+  // Milwaukee
+  "milwaukee": "milwaukee", "milwaukee-suburbs": "milwaukee"
+};
 const AREA_LABELS = {
+  // Twin Cities
   minneapolis: "Minneapolis", stpaul: "St. Paul",
   "west-suburbs": "West suburbs", "south-suburbs": "South suburbs",
   "north-suburbs": "North suburbs", "east-suburbs": "East suburbs",
-  "outer-metro": "Outer metro (50mi)"
+  "outer-metro": "Outer metro (50mi)",
+  // Chicago
+  chicago: "Chicago", "chicago-north": "North side",
+  "chicago-west": "West side", "chicago-south": "South side",
+  "chicago-suburbs": "Suburbs",
+  // Milwaukee
+  milwaukee: "Milwaukee", "milwaukee-suburbs": "Suburbs"
 };
 const DAY_LABELS = { mon:"Mon", tue:"Tue", wed:"Wed", thu:"Thu", fri:"Fri", sat:"Sat", sun:"Sun", daily:"Daily" };
 const FORMAT_LABELS = { coed:"Coed", mens:"Men's", womens:"Women's", open:"Open" };
