@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Find your adult rec league. Free, no signup, no ads." />
 
 <!-- Favicon (volleyball emoji as inline SVG) -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏐%3C/text%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' rx='8' fill='%232563eb'/%3E%3Cpath d='M9.5 8 L9.5 21.5 L18 21.5' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='22' cy='11.5' r='3.6' stroke='%23fff' stroke-width='2.4' fill='none'/%3E%3Cline x1='24.5' y1='14' x2='26.5' y2='16' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E" />
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -637,6 +637,11 @@ const VENUES = {
   // Bar / restaurant venues with leagues
   lordfletchers:     { name: "Lord Fletcher's of the Lake",  address: "3746 Sunset Dr, Spring Park",      area: "west-suburbs",  lat: 44.9335, lng: -93.6350 },
   bunnysslp:         { name: "Bunny's Bar & Grill",          address: "5916 Excelsior Blvd, St Louis Park", area: "west-suburbs", lat: 44.9405, lng: -93.3593 },
+  // Dedicated pickleball clubs
+  chipspickleball:   { name: "Chip's Pickleball Club",       address: "980 Discovery Rd, Eagan",          area: "south-suburbs", lat: 44.7995, lng: -93.1694 },
+  luckyshotsluxe:    { name: "Lucky Shots — The Luxe (NE Mpls)", address: "3300 5th St NE, Minneapolis",  area: "minneapolis",   lat: 44.9990, lng: -93.2530 },
+  luckyshotsdome:    { name: "Lucky Shots — Le Dome (Brooklyn Park)", address: "8401 83rd Ave N, Brooklyn Park", area: "north-suburbs", lat: 45.1129, lng: -93.3582 },
+  mplspickleclub:    { name: "Minneapolis Pickleball Club",  address: "Minneapolis (see website for location)", area: "minneapolis", lat: 44.9778, lng: -93.2650 },
   // Open gym venues
   brooklynparkrec:   { name: "Brooklyn Park Community Activity Center", address: "5600 85th Ave N, Brooklyn Park", area: "north-suburbs", lat: 45.1109, lng: -93.3563 },
   ywcasportscenter:  { name: "YWCA Minneapolis Midtown",     address: "2121 E Lake St, Minneapolis",      area: "minneapolis",   lat: 44.9484, lng: -93.2392 },
@@ -979,6 +984,31 @@ const SESSIONS = [
     format:"open", skill:"intermediate", teamSize:"singles", surface:"hardcourt", leagueSize:"24 players",
     price:50, priceUnit:"/player", setting:"indoor",
     status:"open", url:"https://www.edinamn.gov/468/Adult-Sports" },
+  // Dedicated pickleball clubs (real venues, verified)
+  { id:"p10", sport:"pickleball", operator:"Chip's Pickleball Club", name:"Member open play & leagues",
+    venueId:"chipspickleball", day:"daily", time:"6:30 AM – 10:30 PM",
+    startDate:"2026-01-01", endDate:"2026-12-31", season:"year-round",
+    format:"open", skill:"all-levels", teamSize:"doubles", surface:"hardcourt", leagueSize:"12 courts",
+    price:0, priceUnit:"with membership", setting:"indoor",
+    status:"open", url:"https://www.chipspickleball.com/" },
+  { id:"p11", sport:"pickleball", operator:"Lucky Shots Pickleball Club", name:"Open play & leagues — Northeast Mpls",
+    venueId:"luckyshotsluxe", day:"daily", time:"6 AM – 10 PM",
+    startDate:"2026-01-01", endDate:"2026-12-31", season:"year-round",
+    format:"open", skill:"all-levels", teamSize:"doubles", surface:"hardcourt", leagueSize:"see schedule",
+    price:0, priceUnit:"with membership", setting:"indoor",
+    status:"open", url:"https://luckyshotspickleball.com/lets-play/leagues/" },
+  { id:"p12", sport:"pickleball", operator:"Lucky Shots Pickleball Club", name:"Open play & leagues — Le Dome (Brooklyn Park)",
+    venueId:"luckyshotsdome", day:"daily", time:"9 AM – 10 PM",
+    startDate:"2026-01-01", endDate:"2026-12-31", season:"year-round",
+    format:"open", skill:"all-levels", teamSize:"doubles", surface:"hardcourt", leagueSize:"13 courts",
+    price:0, priceUnit:"with membership", setting:"indoor",
+    status:"open", url:"https://luckyshotspickleball.com/lets-play/leagues/" },
+  { id:"p13", sport:"pickleball", operator:"Minneapolis Pickleball Club", name:"Indoor leagues & open play",
+    venueId:"mplspickleclub", day:"daily", time:"varies",
+    startDate:"2026-01-01", endDate:"2026-12-31", season:"year-round",
+    format:"open", skill:"all-levels", teamSize:"doubles", surface:"hardcourt", leagueSize:"7 courts",
+    price:0, priceUnit:"with membership", setting:"indoor",
+    status:"open", url:"https://www.mplspickleclub.com/" },
 
   /* -------- CURLING -------- */
   { id:"c01", sport:"curling", operator:"St. Paul Curling Club", name:"Open League",
@@ -1240,7 +1270,7 @@ function renderTabs() {
     ${tabBtn("home", "All sports")}
     ${tabBtn("map", "Map view")}
     <div class="sidebar-section">Sports</div>
-    ${sports.map(s => tabBtn(`sport/${s}`, `${SPORT_META[s].icon} ${SPORT_META[s].label}`, counts[s])).join("")}
+    ${sports.map(s => tabBtn(`sport/${s}`, SPORT_META[s].label, counts[s])).join("")}
   `;
   $$("#sidebar .tab").forEach(b => b.addEventListener("click", () => navigate(b.dataset.route)));
 }
@@ -1265,7 +1295,6 @@ function renderHome() {
         const opsLine = ops.shown.join(" · ") + (ops.more ? ` · +${ops.more}` : "");
         return `
         <button class="sport-tile" data-route="sport/${s}">
-          <span class="icon">${SPORT_META[s].icon}</span>
           <div class="name">${SPORT_META[s].label}</div>
           <div class="stats">
             ${counts[s]} league${counts[s] === 1 ? "" : "s"}
@@ -1277,7 +1306,7 @@ function renderHome() {
     </div>
     <div style="text-align:center;margin-top:18px;">
       <button class="btn-primary" data-route="map" style="background:var(--surface);color:var(--accent);border:1px solid var(--accent);">
-        🗺  Browse all venues on the map
+        Browse all venues on the map
       </button>
     </div>
   `;
@@ -1294,7 +1323,7 @@ function renderSport(sportId) {
   $("#app").innerHTML = `
     <a class="back-link" data-route="home">← All sports</a>
     <div class="sport-header">
-      <h1>${SPORT_META[sportId].icon} ${SPORT_META[sportId].label}</h1>
+      <h1>${SPORT_META[sportId].label}</h1>
       <span class="summary" id="sport-summary"></span>
     </div>
     <div class="filter-bar" id="sport-filters"></div>
@@ -1302,8 +1331,8 @@ function renderSport(sportId) {
       <div class="count" id="sport-count"></div>
       <div class="controls">
         <div class="view-toggle" id="view-toggle">
-          <button data-subview="list" class="${state.sportSubview === "list" ? "active" : ""}">📋 List</button>
-          <button data-subview="map"  class="${state.sportSubview === "map"  ? "active" : ""}">🗺 Map</button>
+          <button data-subview="list" class="${state.sportSubview === "list" ? "active" : ""}">List</button>
+          <button data-subview="map"  class="${state.sportSubview === "map"  ? "active" : ""}">Map</button>
         </div>
         <select id="sort">
           <option value="soonest">Sort: registration status</option>
@@ -1566,7 +1595,7 @@ function renderSportMap(sportId, allForSport) {
 function renderGlobalMap() {
   $("#app").innerHTML = `
     <div class="sport-header">
-      <h1>🗺 Venue map — all sports</h1>
+      <h1>Venue map — all sports</h1>
       <span class="summary">All venues hosting adult leagues across the Twin Cities + 50 miles. Click a pin for league details.</span>
     </div>
     <div class="filter-bar" id="map-filters"></div>
@@ -1581,7 +1610,7 @@ function renderGlobalMap() {
 
   const sportSet = [...new Set(ACTIVE_SESSIONS.map(s => s.sport))];
   const sportChips = sportSet.map(s =>
-    `<button class="chip" data-filter="sport" data-value="${s}">${SPORT_META[s].icon} ${SPORT_META[s].label}</button>`
+    `<button class="chip" data-filter="sport" data-value="${s}">${SPORT_META[s].label}</button>`
   ).join("");
   const dayChips = ["mon","tue","wed","thu","fri","sat","sun"].map(d =>
     `<button class="chip" data-filter="day" data-value="${d}">${DAY_LABELS[d]}</button>`
@@ -1684,7 +1713,7 @@ function drawMapMarkers(filteredSessions, titleSel, listSel) {
     const v = VENUES[vid];
     const sessions = byVenue[vid];
     const sportsAtVenue = [...new Set(sessions.map(s => s.sport))];
-    const sportTags = sportsAtVenue.map(sp => `${SPORT_META[sp].icon} ${SPORT_META[sp].label}`).join(", ");
+    const sportTags = sportsAtVenue.map(sp => SPORT_META[sp].label).join(", ");
 
     const hasOpen = sessions.some(s => s.status === "open");
     const color = hasOpen ? "#15803d" : (sessions.some(s => s.status === "soon") ? "#b45309" : "#94a3b8");
@@ -1711,7 +1740,7 @@ function drawMapMarkers(filteredSessions, titleSel, listSel) {
       <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px;">
         ${sessions.slice(0,5).map(s => `
           <div style="font-size:12px;">
-            ${SPORT_META[s.sport].icon} <a href="${s.url}" target="_blank" class="pop-link">${s.name}</a>
+            <a href="${s.url}" target="_blank" class="pop-link">${s.name}</a>
             <span style="color:#94a3b8;">· ${DAY_LABELS[s.day] || s.day} ${s.time.split(" /")[0]}${s.surface ? " · " + (SURFACE_LABELS[s.surface] || s.surface) : ""}${s.teamSize ? " · " + s.teamSize : ""}</span>
           </div>
         `).join("")}
@@ -1730,7 +1759,7 @@ function drawMapMarkers(filteredSessions, titleSel, listSel) {
     const v = VENUES[vid];
     const sessions = byVenue[vid];
     const sports = [...new Set(sessions.map(s => s.sport))]
-      .map(sp => `<span class="tag-mini">${SPORT_META[sp].icon} ${SPORT_META[sp].label}</span>`).join("");
+      .map(sp => `<span class="tag-mini">${SPORT_META[sp].label}</span>`).join("");
     return `
       <div class="venue-item" data-venue="${vid}">
         <h4>${v.name}</h4>
@@ -1759,7 +1788,7 @@ function renderSubmitLeaguePage() {
   $("#app").innerHTML = `
     <a class="back-link" data-route="home">← All sports</a>
     <div class="page-prose">
-      <h1>💡 Submit a league or correction</h1>
+      <h1>Submit a league or correction</h1>
       <p>Know a league we don't list? Spotted incorrect info? Tell us — this site exists because real players keep it current.</p>
       <p>The most useful submissions include:</p>
       <ul>
@@ -1772,7 +1801,7 @@ function renderSubmitLeaguePage() {
       <p>If you're flagging incorrect info, just paste the league name and what's wrong.</p>
       <div class="page-cta">
         <a class="btn-primary" href="mailto:hello@leaguelookup.org?subject=League%20submission%20%2F%20correction&body=League%20name%3A%20%0AOperator%3A%20%0ASport%2C%20day%2C%20time%3A%20%0AVenue%3A%20%0ARegistration%20link%3A%20%0AAnything%20else%3A%20">
-          ✉  Send via email
+          Send via email
         </a>
         <p class="page-cta-note">Goes to the maintainer. Replies happen within a week or so.</p>
       </div>
@@ -1805,7 +1834,7 @@ function renderTipJarPage() {
   $("#app").innerHTML = `
     <a class="back-link" data-route="home">← All sports</a>
     <div class="page-prose">
-      <h1>☕ Tip jar</h1>
+      <h1>Tip jar</h1>
       <p>League Lookup is free, ad-free, and run by one person. Hosting and the domain cost about $15–25 a month — covered out of pocket so the site stays clean.</p>
       <p>If it helped you find a league and you want to throw a few bucks at keeping it online, here are the options:</p>
       <div class="page-cta">
@@ -1827,7 +1856,7 @@ function renderFeedbackPage() {
   $("#app").innerHTML = `
     <a class="back-link" data-route="home">← All sports</a>
     <div class="page-prose">
-      <h1>✉ Suggest improvements</h1>
+      <h1>Suggest improvements</h1>
       <p>Found a bug? Want a filter that doesn't exist? Think the layout is wrong? This is the page for that.</p>
       <p>Useful feedback usually answers one of three questions:</p>
       <ul>
@@ -1838,7 +1867,7 @@ function renderFeedbackPage() {
       <p>Vague "this is bad" feedback is also fine — it's a signal, even if not actionable on its own.</p>
       <div class="page-cta">
         <a class="btn-primary" href="mailto:hello@leaguelookup.org?subject=League%20Lookup%20feedback&body=What%20I%20was%20trying%20to%20do%3A%20%0AWhat%20didn%27t%20work%3A%20%0AWhat%20would%20help%3A%20">
-          ✉  Send feedback via email
+          Send feedback via email
         </a>
         <p class="page-cta-note">Read by an actual person, usually within a week.</p>
       </div>
