@@ -1204,16 +1204,19 @@ function sportOpenCounts() {
   for (const s of ACTIVE_SESSIONS) if (s.status === "open") c[s.sport] = (c[s.sport] || 0) + 1;
   return c;
 }
-function sportOperators(sportId, max = 6) {
-  const ops = [];
-  const seen = new Set();
+function sportVenueCount(sportId) {
+  const venues = new Set();
   for (const s of ACTIVE_SESSIONS) {
-    if (s.sport !== sportId) continue;
-    // Trim long operator names for tile display
-    let op = s.operator.replace(/ @ Lord Fletcher's/, "").replace(/Parks & Rec/, "P&R").replace(/of the North/, "");
-    if (!seen.has(op)) { seen.add(op); ops.push(op); }
+    if (s.sport === sportId) venues.add(s.venueId);
   }
-  return { shown: ops.slice(0, max), more: Math.max(0, ops.length - max) };
+  return venues.size;
+}
+function sportOperatorCount(sportId) {
+  const ops = new Set();
+  for (const s of ACTIVE_SESSIONS) {
+    if (s.sport === sportId) ops.add(s.operator);
+  }
+  return ops.size;
 }
 
 /* ============================================================
