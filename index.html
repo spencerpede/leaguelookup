@@ -1227,6 +1227,7 @@ function parseHash() {
   if (!h || h === "home") return { view: "home" };
   if (h === "map") return { view: "map" };
   if (h === "about") return { view: "about" };
+  if (h === "operators") return { view: "operators" };
   if (h === "submit") return { view: "submit" };
   if (h === "feedback") return { view: "feedback" };
   if (h === "tip") return { view: "tip" };
@@ -1249,6 +1250,7 @@ function render() {
   else if (r.view === "sport") renderSport(r.sport);
   else if (r.view === "map") renderGlobalMap();
   else if (r.view === "about") renderAboutPage();
+  else if (r.view === "operators") renderOperatorsPage();
   else if (r.view === "submit") renderSubmitLeaguePage();
   else if (r.view === "feedback") renderFeedbackPage();
   else if (r.view === "tip") renderTipJarPage();
