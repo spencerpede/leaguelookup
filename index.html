@@ -2093,6 +2093,7 @@ function render() {
   state.view = r.view;
   state.sport = r.sport || null;
   updateSEO(r.view, r.sport);
+  updateBrandSub();
   renderTabs();
   if (r.view === "home") renderHome();
   else if (r.view === "sport") renderSport(r.sport);
