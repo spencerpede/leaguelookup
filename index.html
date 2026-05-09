@@ -1579,17 +1579,40 @@ function buildSportFilters(sportId, allForSport) {
   }
   updateOperatorSummary();
 
-  $$("#sport-filters .chip").forEach(c => {
-    c.addEventListener("click", () => {
-      const k = c.dataset.filter, v = c.dataset.value;
-      state.filters[k].has(v) ? state.filters[k].delete(v) : state.filters[k].add(v);
+  // All filters (including the operator one) now use dropdown checkboxes
+  $$('#sport-filters input[type="checkbox"][data-filter]').forEach(cb => {
+    cb.addEventListener("change", () => {
+      const k = cb.dataset.filter, v = cb.value;
+      cb.checked ? state.filters[k].add(v) : state.filters[k].delete(v);
+      updateAllFilterSummaries();
       renderSportContent(sportId, allForSport);
     });
   });
   $("#clear-filters").addEventListener("click", () => {
     Object.keys(state.filters).forEach(k => state.filters[k].clear());
+    $$('#sport-filters input[type="checkbox"]').forEach(cb => cb.checked = false);
+    $$('#sport-filters details[open]').forEach(d => d.removeAttribute("open"));
+    updateAllFilterSummaries();
     renderSportContent(sportId, allForSport);
   });
+
+  function updateAllFilterSummaries() {
+    $$("#sport-filters details.filter-dd").forEach(d => {
+      const key = d.dataset.filterDd;
+      const summary = d.querySelector("summary");
+      const baseLabel = summary.dataset.baseLabel || summary.textContent;
+      summary.dataset.baseLabel = baseLabel;
+      const sel = state.filters[key];
+      if (!sel || sel.size === 0) {
+        summary.textContent = baseLabel;
+        summary.classList.remove("has-selection");
+      } else {
+        summary.textContent = sel.size === 1 ? `${baseLabel}: ${[...sel][0]}` : `${baseLabel} (${sel.size})`;
+        summary.classList.add("has-selection");
+      }
+    });
+  }
+  updateAllFilterSummaries();
 }
 
 function renderSportContent(sportId, allForSport) {
