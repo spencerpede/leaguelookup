@@ -151,6 +151,55 @@
   }
   .header-nav .tip-btn:hover { background: var(--accent-soft); }
 
+  /* Light/dark theme switch */
+  .theme-switch {
+    position: relative;
+    width: 46px; height: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+    margin-left: 4px;
+  }
+  .theme-switch input {
+    position: absolute;
+    width: 100%; height: 100%;
+    opacity: 0; cursor: pointer;
+    margin: 0;
+  }
+  .theme-slider {
+    position: absolute; inset: 0;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    transition: background .2s ease, border-color .2s ease;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5px;
+  }
+  .theme-slider::before {
+    content: "";
+    position: absolute;
+    width: 18px; height: 18px;
+    background: var(--surface);
+    border-radius: 50%;
+    top: 50%; left: 2px;
+    transform: translateY(-50%);
+    transition: left .2s ease, background .2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .theme-switch input:checked ~ .theme-slider::before {
+    left: 25px;
+  }
+  .theme-slider-icon {
+    font-size: 11px;
+    line-height: 1;
+    color: var(--ink-faint);
+    z-index: 1;
+    transition: opacity .2s ease;
+  }
+  .theme-slider-icon.sun { opacity: 1; }
+  .theme-slider-icon.moon { opacity: 0.5; }
+  .theme-switch input:checked ~ .theme-slider .theme-slider-icon.sun { opacity: 0.5; }
+  .theme-switch input:checked ~ .theme-slider .theme-slider-icon.moon { opacity: 1; color: #fbbf24; }
+
   /* Layout: left sidebar with sports + main content */
   .layout {
     max-width: 1280px;
