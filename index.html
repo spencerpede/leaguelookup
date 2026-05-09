@@ -2288,7 +2288,7 @@ function buildSportFilters(sportId, allForSport) {
                   key === "status" ? ["open","soon","full","closed"] :
                   key === "season" ? ["spring","summer","fall","winter","year-round"] :
                   key === "price" ? ["free","under100","100to300","over300"] :
-                  key === "area" ? ["minneapolis","stpaul","west-suburbs","south-suburbs","north-suburbs","east-suburbs","outer-metro"] :
+                  key === "area" ? areasForCurrentMetro() :
                   key === "teamSize" ? ["singles","doubles","2v2","3v3","4v4","5v5","6v6","7v7","11v11","11 on field","5 + goalie","4-person","10 on field"] :
                   key === "surface" ? ["sand","grass","hardcourt","turf","ice","outdoor court","indoor"] : null;
     const sorted = order
@@ -2576,7 +2576,7 @@ function renderGlobalMap() {
   const dayChips = ["mon","tue","wed","thu","fri","sat","sun"].map(d =>
     `<button class="chip" data-filter="day" data-value="${d}">${DAY_LABELS[d]}</button>`
   ).join("");
-  const areaChips = ["minneapolis","stpaul","west-suburbs","south-suburbs","north-suburbs","east-suburbs","outer-metro"].map(a =>
+  const areaChips = areasForCurrentMetro().map(a =>
     `<button class="chip" data-filter="area" data-value="${a}">${AREA_LABELS[a]}</button>`
   ).join("");
   const statusChips = ["open","soon"].map(st =>
