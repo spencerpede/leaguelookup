@@ -1507,20 +1507,23 @@ function buildSportFilters(sportId, allForSport) {
     const opts = [...buckets[key]];
     if (opts.length <= 1) return "";
     const order = key === "day" ? ["mon","tue","wed","thu","fri","sat","sun"] :
-                  key === "status" ? ["open","soon","closed"] :
+                  key === "status" ? ["open","soon","full","closed"] :
                   key === "season" ? ["spring","summer","fall","winter","year-round"] :
                   key === "price" ? ["free","under100","100to300","over300"] :
                   key === "area" ? ["minneapolis","stpaul","west-suburbs","south-suburbs","north-suburbs","east-suburbs","outer-metro"] :
                   key === "teamSize" ? ["singles","doubles","2v2","3v3","4v4","5v5","6v6","7v7","11v11","11 on field","5 + goalie","4-person","10 on field"] :
                   key === "surface" ? ["sand","grass","hardcourt","turf","ice","outdoor court","indoor"] : null;
     const sorted = order ? [...order.filter(o => opts.includes(o)), ...opts.filter(o => !order.includes(o))] : opts;
+    const safeKey = key.replace(/[^a-zA-Z0-9]/g, "-");
     return `
-      <div class="filter-group-h ${priority ? "priority" : ""}">
-        <label>${label}</label>
-        <div class="chip-row">
-          ${sorted.map(o => `<button class="chip" data-filter="${key}" data-value="${o}">${(labelMap && labelMap[o]) || o}</button>`).join("")}
+      <details class="multi-select filter-dd ${priority ? "priority" : ""}" data-filter-dd="${key}">
+        <summary id="dd-${safeKey}-summary">${label}</summary>
+        <div class="multi-popover">
+          ${sorted.map(o => `
+            <label><input type="checkbox" data-filter="${key}" value="${o}" /> ${(labelMap && labelMap[o]) || o}</label>
+          `).join("")}
         </div>
-      </div>
+      </details>
     `;
   };
 
