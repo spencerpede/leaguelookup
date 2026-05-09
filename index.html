@@ -2191,13 +2191,17 @@ function renderSportResults(sportId, all) {
     const v = VENUES[s.venueId];
     const dayDisplay = s.day === "daily" ? "Daily" : (DAY_LABELS[s.day] || s.day).toUpperCase();
 
-    // Title pattern: "League name — Location". Skip if name already references the venue.
+    // Title pattern: "League name — Operator". Skip operator append if the
+    // name already has it (e.g. Lord Fletcher's entries where the venue brand
+    // is the operator).
     const shortVenue = v.name
       .replace(/\s*\([^)]*\)\s*$/, "")
       .replace(/\s+of\s+the\s+\w+$/i, "");
-    const nameHasVenue = shortVenue.split(/\s+/)
-      .some(w => w.length > 3 && s.name.toLowerCase().includes(w.toLowerCase()));
-    const titleText = nameHasVenue ? s.name : `${s.name} — ${shortVenue}`;
+    const operatorWords = s.operator.split(/[\s@—]+/).filter(w => w.length > 3);
+    const venueWords = shortVenue.split(/\s+/).filter(w => w.length > 3);
+    const nameHasOperator = [...operatorWords, ...venueWords]
+      .some(w => s.name.toLowerCase().includes(w.toLowerCase()));
+    const titleText = nameHasOperator ? s.name : `${s.name} — ${s.operator}`;
 
     const tags = [
       `<span class="tag-mini">${FORMAT_LABELS[s.format] || s.format}</span>`,
