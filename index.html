@@ -2250,7 +2250,7 @@ function drawOperators(operators) {
     return true;
   });
 
-  const sortBy = ($("#op-sort") && $("#op-sort").value) || "leagues";
+  const sortBy = ($("#op-sort") && $("#op-sort").value) || "alpha";
   filtered.sort((a, b) => {
     if (sortBy === "alpha") return a.name.localeCompare(b.name);
     if (sortBy === "sports") return b.sports.size - a.sports.size;
