@@ -1294,8 +1294,8 @@ function renderHome() {
     </div>
     <div class="sport-grid">
       ${sports.map(s => {
-        const ops = sportOperators(s, 6);
-        const opsLine = ops.shown.join(" · ") + (ops.more ? ` · +${ops.more}` : "");
+        const venues = sportVenueCount(s);
+        const operators = sportOperatorCount(s);
         return `
         <button class="sport-tile" data-route="sport/${s}">
           <div class="name">${SPORT_META[s].label}</div>
@@ -1303,7 +1303,7 @@ function renderHome() {
             ${counts[s]} league${counts[s] === 1 ? "" : "s"}
             ${open[s] ? `· <span class="open-dot"></span>${open[s]} open` : ""}
           </div>
-          <div class="operators">${opsLine}</div>
+          <div class="operators">${venues} venue${venues === 1 ? "" : "s"} · ${operators} operator${operators === 1 ? "" : "s"}</div>
         </button>
       `;}).join("")}
     </div>
