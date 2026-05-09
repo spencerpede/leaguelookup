@@ -3294,7 +3294,7 @@ $$(".header-nav a, .footer-nav a").forEach(a => a.addEventListener("click", () =
 function updateBrandSub() {
   const sub = $("#brand-sub");
   if (sub && METROS[state.metro]) {
-    sub.textContent = `Adult sports leagues · ${METROS[state.metro].subtitle}`;
+    sub.textContent = `Adult sports leagues · ${METROS[state.metro].name}`;
   }
 }
 
