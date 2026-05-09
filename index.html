@@ -2521,7 +2521,7 @@ function renderSportMap(sportId, allForSport) {
   setTimeout(() => {
     if (map) { map.remove(); map = null; }
     map = L.map("sport-map-canvas", { zoomControl: true, scrollWheelZoom: true })
-      .setView([44.96, -93.20], 10);
+      .setView(METROS[state.metro].center, METROS[state.metro].zoom);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -2606,7 +2606,7 @@ function renderGlobalMap() {
   setTimeout(() => {
     if (map) { map.remove(); map = null; }
     map = L.map("global-map-canvas", { zoomControl: true, scrollWheelZoom: true })
-      .setView([44.96, -93.20], 10);
+      .setView(METROS[state.metro].center, METROS[state.metro].zoom);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
