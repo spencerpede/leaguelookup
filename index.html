@@ -1835,7 +1835,8 @@ function renderTabs() {
   const counts = sportCounts();
   const allSports = Object.keys(SPORT_META).filter(s => counts[s]);
   const popular = POPULAR_SPORTS.filter(s => counts[s]);
-  const others = allSports.filter(s => !POPULAR_SPORTS.includes(s))
+  // Show all sports in the alphabetical list (popular ones also appear pinned above)
+  const others = [...allSports]
     .sort((a,b) => SPORT_META[a].label.localeCompare(SPORT_META[b].label));
   const cur = state.view === "sport" ? `sport/${state.sport}` : state.view;
 
