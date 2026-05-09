@@ -1995,14 +1995,14 @@ function sportOpenCounts() {
 }
 function sportVenueCount(sportId) {
   const venues = new Set();
-  for (const s of ACTIVE_SESSIONS) {
+  for (const s of getActiveSessions()) {
     if (s.sport === sportId) venues.add(s.venueId);
   }
   return venues.size;
 }
 function sportOperatorCount(sportId) {
   const ops = new Set();
-  for (const s of ACTIVE_SESSIONS) {
+  for (const s of getActiveSessions()) {
     if (s.sport === sportId) ops.add(s.operator);
   }
   return ops.size;
@@ -2171,7 +2171,7 @@ function renderHome() {
    ============================================================ */
 function renderSport(sportId) {
   if (!SPORT_META[sportId]) { navigate("home"); return; }
-  const allForSport = ACTIVE_SESSIONS.filter(s => s.sport === sportId);
+  const allForSport = getActiveSessions().filter(s => s.sport === sportId);
 
   $("#app").innerHTML = `
     <a class="back-link" data-route="home">← All sports</a>
@@ -2530,7 +2530,7 @@ function renderGlobalMap() {
     </div>
   `;
 
-  const sportSet = [...new Set(ACTIVE_SESSIONS.map(s => s.sport))];
+  const sportSet = [...new Set(getActiveSessions().map(s => s.sport))];
   const sportChips = sportSet.map(s =>
     `<button class="chip" data-filter="sport" data-value="${s}">${SPORT_META[s].label}</button>`
   ).join("");
@@ -2616,7 +2616,7 @@ function drawGlobalMap() {
   $$("#map-filters .chip").forEach(c => {
     c.classList.toggle("active", state.mapFilters[c.dataset.filter].has(c.dataset.value));
   });
-  const filtered = ACTIVE_SESSIONS.filter(sessionMatchesGlobalMap);
+  const filtered = getActiveSessions().filter(sessionMatchesGlobalMap);
   drawMapMarkers(filtered, "#global-map-title", "#global-map-list");
 }
 
@@ -2737,7 +2737,7 @@ function renderSubmitLeaguePage() {
 function renderOperatorsPage() {
   // Aggregate sessions by operator
   const byOp = {};
-  for (const s of ACTIVE_SESSIONS) {
+  for (const s of getActiveSessions()) {
     const op = byOp[s.operator] = byOp[s.operator] || {
       name: s.operator, sessions: [], sports: new Set(), areas: new Set(), urls: new Set()
     };
@@ -2749,7 +2749,7 @@ function renderOperatorsPage() {
   const operators = Object.values(byOp);
 
   // All sports & areas present (for filters)
-  const allSports = [...new Set(ACTIVE_SESSIONS.map(s => s.sport))]
+  const allSports = [...new Set(getActiveSessions().map(s => s.sport))]
     .sort((a,b) => SPORT_META[a].label.localeCompare(SPORT_META[b].label));
   const allAreas = ["minneapolis","stpaul","west-suburbs","south-suburbs","north-suburbs","east-suburbs","outer-metro"];
 
@@ -2961,7 +2961,7 @@ function renderFeedbackPage() {
 $("#search").addEventListener("input", e => {
   state.search = e.target.value.trim();
   if (state.view === "sport") {
-    const all = ACTIVE_SESSIONS.filter(s => s.sport === state.sport);
+    const all = getActiveSessions().filter(s => s.sport === state.sport);
     renderSportContent(state.sport, all);
   } else if (state.view === "map") {
     drawGlobalMap();
