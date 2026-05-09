@@ -238,11 +238,21 @@
   .back-link:hover { color: var(--accent); }
 
   .filter-bar {
-    display: flex; gap: 18px; flex-wrap: wrap;
-    margin-bottom: 14px; padding: 12px 14px;
+    display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 14px; padding: 10px 12px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
+  }
+  /* Sport-page filter dropdown buttons */
+  .filter-bar details.filter-dd { flex-shrink: 0; }
+  .filter-bar details.filter-dd summary {
+    padding: 6px 26px 6px 12px;
+    font-weight: 500;
+  }
+  .filter-bar details.filter-dd.priority summary {
+    border-color: var(--accent);
+    color: var(--accent);
   }
   .filter-group-h { display: flex; flex-direction: column; gap: 5px; }
   .filter-group-h label {
