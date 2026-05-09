@@ -21,7 +21,8 @@ if git diff --cached --quiet; then
 fi
 
 git commit -m "$MSG"
-git push
+# -u sets upstream the first time, no-op on subsequent runs
+git push -u origin main
 
 echo ""
-echo "✓ Deployed. Site will update at https://leaguelookup.org in ~30 seconds."
+echo "Deployed. Site will update at https://leaguelookup.org in ~30 seconds."
