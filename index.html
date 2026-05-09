@@ -1486,7 +1486,8 @@ function buildSportFilters(sportId, allForSport) {
     status: new Set(), day: new Set(), area: new Set(),
     format: new Set(), skill: new Set(), setting: new Set(),
     season: new Set(), price: new Set(),
-    teamSize: new Set(), surface: new Set()
+    teamSize: new Set(), surface: new Set(),
+    operator: new Set()
   };
   allForSport.forEach(s => {
     buckets.status.add(s.status);
@@ -1499,6 +1500,7 @@ function buildSportFilters(sportId, allForSport) {
     buckets.price.add(priceBucket(s.price));
     if (s.teamSize) buckets.teamSize.add(s.teamSize);
     if (s.surface) buckets.surface.add(s.surface);
+    buckets.operator.add(s.operator);
   });
 
   const filterHtml = (key, labelMap, label, priority=false) => {
