@@ -1932,6 +1932,7 @@ const PRICE_LABELS = { free:"Free", under100:"<$100", "100to300":"$100–$300", 
 const state = {
   view: "home",
   sport: null,
+  metro: localStorage.getItem("ll-metro") || "twin-cities",
   sportSubview: "list",       // "list" | "map"  (within a sport page)
   search: "",
   sort: "soonest",
