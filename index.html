@@ -2064,15 +2064,15 @@ function buildSportFilters(sportId, allForSport) {
   // Primary filters — always visible as chips at the top
   const primaryHtml = [
     filterHtml("day", DAY_LABELS, "Day of Week", true),
+    filterHtml("season", SEASON_LABELS, "Season", true),
     filterHtml("teamSize", null, "Team Size / Format"),
-    filterHtml("status", STATUS_LABELS, "Registration"),
     filterHtml("surface", SURFACE_LABELS, "Surface"),
     filterHtml("operator", null, "Operator")
   ].filter(Boolean).join("");
 
   // Secondary filters — collapsed inside a "More Filters" dropdown
   const secondaryHtml = [
-    filterHtml("season", SEASON_LABELS, "Season"),
+    filterHtml("status", STATUS_LABELS, "Registration"),
     filterHtml("format", FORMAT_LABELS, "Coed / Men's / Women's"),
     filterHtml("skill", { "all-levels":"All Levels", beginner:"Beginner", recreational:"Rec", intermediate:"Intermediate", competitive:"Competitive" }, "Skill"),
     filterHtml("setting", { indoor:"Indoor", outdoor:"Outdoor" }, "Setting")
