@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.leaguelookup.autodeploy</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/spencerpede/Documents/Claude/Projects/Sports League Aggregator/auto-deploy.sh</string>
+    </array>
+
+    <key>WatchPaths</key>
+    <array>
+        <string>/Users/spencerpede/Documents/Claude/Projects/Sports League Aggregator/index.html</string>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/leaguelookup-deploy.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/leaguelookup-deploy.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
