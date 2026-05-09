@@ -1524,17 +1524,57 @@ function buildSportFilters(sportId, allForSport) {
     `;
   };
 
+  // Operator dropdown — only show if there are 2+ operators for this sport
+  const operatorOptions = [...buckets.operator].sort();
+  const operatorDropdownHtml = operatorOptions.length > 1 ? `
+    <div class="filter-group-h">
+      <label>Operator</label>
+      <details class="multi-select" id="op-multi">
+        <summary id="op-multi-summary">All operators</summary>
+        <div class="multi-popover">
+          ${operatorOptions.map(op => `
+            <label><input type="checkbox" data-filter="operator" value="${op.replace(/"/g, '&quot;')}" /> ${op}</label>
+          `).join("")}
+        </div>
+      </details>
+    </div>
+  ` : "";
+
   $("#sport-filters").innerHTML = [
     filterHtml("day", DAY_LABELS, "Day of week", true),
     filterHtml("teamSize", null, "Team size / format"),
     filterHtml("surface", SURFACE_LABELS, "Surface"),
     filterHtml("status", STATUS_LABELS, "Registration"),
+    operatorDropdownHtml,
     filterHtml("season", SEASON_LABELS, "Season"),
     filterHtml("format", FORMAT_LABELS, "Coed/Men's/Women's"),
     filterHtml("skill", { "all-levels":"All levels", beginner:"Beginner", recreational:"Rec", intermediate:"Intermediate", competitive:"Competitive" }, "Skill"),
     filterHtml("setting", { indoor:"Indoor", outdoor:"Outdoor" }, "Setting"),
     `<button class="clear-chip" id="clear-filters">Clear all</button>`
   ].join("");
+
+  // Wire up operator dropdown checkboxes
+  $$('input[data-filter="operator"]').forEach(cb => {
+    cb.addEventListener("change", () => {
+      const v = cb.value;
+      cb.checked ? state.filters.operator.add(v) : state.filters.operator.delete(v);
+      updateOperatorSummary();
+      renderSportContent(sportId, allForSport);
+    });
+  });
+  function updateOperatorSummary() {
+    const summary = $("#op-multi-summary");
+    if (!summary) return;
+    const sel = state.filters.operator;
+    if (sel.size === 0) {
+      summary.textContent = "All operators";
+      summary.classList.remove("has-selection");
+    } else {
+      summary.textContent = sel.size === 1 ? [...sel][0] : `${sel.size} operators selected`;
+      summary.classList.add("has-selection");
+    }
+  }
+  updateOperatorSummary();
 
   $$("#sport-filters .chip").forEach(c => {
     c.addEventListener("click", () => {
