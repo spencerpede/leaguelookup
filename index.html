@@ -1852,16 +1852,16 @@ function buildSportFilters(sportId, allForSport) {
   };
 
   $("#sport-filters").innerHTML = [
-    filterHtml("day", DAY_LABELS, "Day"),
+    filterHtml("day", DAY_LABELS, "Day of Week", true),
     filterHtml("status", STATUS_LABELS, "Registration"),
     filterHtml("operator", null, "Operator"),
-    filterHtml("teamSize", null, "Team size"),
+    filterHtml("teamSize", null, "Team Size / Format"),
     filterHtml("surface", SURFACE_LABELS, "Surface"),
     filterHtml("season", SEASON_LABELS, "Season"),
-    filterHtml("format", FORMAT_LABELS, "Coed/Men's/Women's"),
-    filterHtml("skill", { "all-levels":"All levels", beginner:"Beginner", recreational:"Rec", intermediate:"Intermediate", competitive:"Competitive" }, "Skill"),
+    filterHtml("format", FORMAT_LABELS, "Coed / Men's / Women's"),
+    filterHtml("skill", { "all-levels":"All Levels", beginner:"Beginner", recreational:"Rec", intermediate:"Intermediate", competitive:"Competitive" }, "Skill"),
     filterHtml("setting", { indoor:"Indoor", outdoor:"Outdoor" }, "Setting"),
-    `<button class="clear-chip" id="clear-filters">Clear all</button>`
+    `<button class="clear-chip" id="clear-filters">Clear All</button>`
   ].join("");
 
   // All filters (including the operator one) now use dropdown checkboxes
