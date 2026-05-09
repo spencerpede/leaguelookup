@@ -2055,20 +2055,21 @@ function navigate(to) {
   location.hash = to;
 }
 function updateSEO(view, sport) {
+  const metroName = METROS[state.metro].name;
   // Default
-  let title = "League Lookup — adult sports leagues, Twin Cities metro";
-  let description = "Adult sports leagues across the Twin Cities, in one place. Pick a sport, filter, find a league. Free, no signup, no ads.";
+  let title = `League Lookup — adult sports leagues, ${metroName} metro`;
+  let description = `Adult sports leagues across ${metroName}, in one place. Pick a sport, filter, find a league. Free, no signup, no ads.`;
 
   if (view === "sport" && sport && SPORT_META[sport]) {
     const label = SPORT_META[sport].label;
-    title = `${label} Leagues in the Twin Cities — League Lookup`;
-    description = `Find an adult ${label.toLowerCase()} league in the Twin Cities metro. Browse by day, surface, format, and operator. Free directory — no signup.`;
+    title = `${label} Leagues in ${metroName} — League Lookup`;
+    description = `Find an adult ${label.toLowerCase()} league in the ${metroName} metro. Browse by day, surface, format, and operator. Free directory — no signup.`;
   } else if (view === "operators") {
-    title = "All Operators — League Lookup";
-    description = "Every adult sports league operator in the Twin Cities directory. Browse by sport and area.";
+    title = `${metroName} Operators — League Lookup`;
+    description = `Every adult sports league operator in the ${metroName} directory. Browse by sport and area.`;
   } else if (view === "map") {
-    title = "Venue Map — League Lookup";
-    description = "Map of every venue hosting adult sports leagues across the Twin Cities + 50 miles.";
+    title = `${metroName} Venue Map — League Lookup`;
+    description = `Map of every venue hosting adult sports leagues across ${metroName}.`;
   } else if (view === "about") {
     title = "About — League Lookup";
   } else if (view === "submit") {
