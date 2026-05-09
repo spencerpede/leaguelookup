@@ -2002,6 +2002,19 @@ function sessionMetro(s) {
   return v ? AREA_TO_METRO[v.area] || "twin-cities" : "twin-cities";
 }
 
+// Areas (sub-regions) belonging to the currently selected metro,
+// in a sensible display order
+function areasForCurrentMetro() {
+  const metroAreas = Object.keys(AREA_TO_METRO).filter(a => AREA_TO_METRO[a] === state.metro);
+  const orderMap = {
+    "twin-cities": ["minneapolis","stpaul","west-suburbs","south-suburbs","north-suburbs","east-suburbs","outer-metro"],
+    "chicago":     ["chicago","chicago-north","chicago-west","chicago-south","chicago-suburbs"],
+    "milwaukee":   ["milwaukee","milwaukee-suburbs"]
+  };
+  const order = orderMap[state.metro] || metroAreas;
+  return order.filter(a => metroAreas.includes(a));
+}
+
 // All sessions still active and in the currently selected metro
 function getActiveSessions() {
   return SESSIONS.filter(s => isActive(s) && sessionMetro(s) === state.metro);
