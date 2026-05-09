@@ -1862,6 +1862,7 @@ function renderTabs() {
   const popularHtml = popular.length ? `
     <div class="sidebar-letter sidebar-popular">Popular</div>
     ${popular.map(s => tabBtn(`sport/${s}`, SPORT_META[s].label, counts[s])).join("")}
+    <div class="sidebar-spacer"></div>
   ` : "";
 
   $("#sidebar").innerHTML = `
