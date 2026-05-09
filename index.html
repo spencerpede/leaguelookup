@@ -1821,9 +1821,13 @@ function render() {
 /* ============================================================
    TABS
    ============================================================ */
+const POPULAR_SPORTS = ["volleyball", "pickleball"];
+
 function renderTabs() {
   const counts = sportCounts();
-  const sports = Object.keys(SPORT_META).filter(s => counts[s])
+  const allSports = Object.keys(SPORT_META).filter(s => counts[s]);
+  const popular = POPULAR_SPORTS.filter(s => counts[s]);
+  const others = allSports.filter(s => !POPULAR_SPORTS.includes(s))
     .sort((a,b) => SPORT_META[a].label.localeCompare(SPORT_META[b].label));
   const cur = state.view === "sport" ? `sport/${state.sport}` : state.view;
 
@@ -1832,16 +1836,21 @@ function renderTabs() {
        <span>${label}</span>${count != null ? `<span class="pill">${count}</span>` : ""}
      </button>`;
 
-  // Group sports alphabetically by first letter
+  // Group "others" alphabetically by first letter
   const groups = {};
-  sports.forEach(s => {
+  others.forEach(s => {
     const letter = SPORT_META[s].label[0].toUpperCase();
     (groups[letter] = groups[letter] || []).push(s);
   });
-  const sportsHtml = Object.keys(groups).sort().map(letter => `
+  const otherHtml = Object.keys(groups).sort().map(letter => `
     <div class="sidebar-letter">${letter}</div>
     ${groups[letter].map(s => tabBtn(`sport/${s}`, SPORT_META[s].label, counts[s])).join("")}
   `).join("");
+
+  const popularHtml = popular.length ? `
+    <div class="sidebar-letter sidebar-popular">Popular</div>
+    ${popular.map(s => tabBtn(`sport/${s}`, SPORT_META[s].label, counts[s])).join("")}
+  ` : "";
 
   $("#sidebar").innerHTML = `
     <div class="sidebar-section">Browse</div>
@@ -1849,7 +1858,8 @@ function renderTabs() {
     ${tabBtn("operators", "All Operators")}
     ${tabBtn("map", "Map View")}
     <div class="sidebar-section">Sports</div>
-    ${sportsHtml}
+    ${popularHtml}
+    ${otherHtml}
   `;
   $$("#sidebar .tab").forEach(b => b.addEventListener("click", () => navigate(b.dataset.route)));
 }
