@@ -2272,18 +2272,26 @@ function drawOperators(operators) {
     const url = [...op.urls][0];
     const sportsList = [...op.sports].map(s => SPORT_META[s].label).join(", ");
     const areasList = [...op.areas].map(a => AREA_LABELS[a]).join(", ");
+    let domain = "";
+    try { domain = new URL(url).hostname; } catch {}
+    const logo = domain
+      ? `<div class="op-logo"><img src="https://www.google.com/s2/favicons?sz=64&domain=${domain}" alt="" loading="lazy" onerror="this.style.display='none'" /></div>`
+      : "";
     return `
       <div class="op-card">
-        <div class="op-main">
-          <h3>${op.name}</h3>
-          <div class="op-meta">
-            <span><strong>${op.sessions.length}</strong> league${op.sessions.length === 1 ? "" : "s"}</span>
-            <span class="sep">·</span>
-            <span><strong>${op.sports.size}</strong> sport${op.sports.size === 1 ? "" : "s"}</span>
+        <div class="op-header">
+          ${logo}
+          <div class="op-main">
+            <h3>${op.name}</h3>
           </div>
-          <div class="op-sports">${sportsList}</div>
-          <div class="op-areas">${areasList}</div>
         </div>
+        <div class="op-meta">
+          <span><strong>${op.sessions.length}</strong> league${op.sessions.length === 1 ? "" : "s"}</span>
+          <span class="sep">·</span>
+          <span><strong>${op.sports.size}</strong> sport${op.sports.size === 1 ? "" : "s"}</span>
+        </div>
+        <div class="op-sports">${sportsList}</div>
+        <div class="op-areas">${areasList}</div>
         <a class="btn-primary" href="${url}" target="_blank" rel="noopener noreferrer">Visit site</a>
       </div>
     `;
