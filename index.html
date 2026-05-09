@@ -3000,6 +3000,36 @@ $("#search").addEventListener("input", e => {
 $(".brand").addEventListener("click", () => navigate("home"));
 $$(".header-nav a, .footer-nav a").forEach(a => a.addEventListener("click", () => navigate(a.dataset.route)));
 
+// Metro switcher
+(function initMetro() {
+  const sel = $("#metro-select");
+  Object.keys(METROS).forEach(key => {
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = METROS[key].name;
+    sel.appendChild(opt);
+  });
+  sel.value = state.metro;
+  sel.addEventListener("change", () => {
+    state.metro = sel.value;
+    localStorage.setItem("ll-metro", state.metro);
+    // Reset to home when switching metros
+    if (state.view === "sport") {
+      navigate("home");
+    } else {
+      render();
+    }
+  });
+})();
+
+// Update brand subtitle to reflect current metro
+function updateBrandSub() {
+  const sub = $("#brand-sub");
+  if (sub && METROS[state.metro]) {
+    sub.textContent = `Adult sports leagues · ${METROS[state.metro].subtitle}`;
+  }
+}
+
 // Light / dark theme toggle
 (function initTheme() {
   const stored = localStorage.getItem("ll-theme");
