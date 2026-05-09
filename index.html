@@ -2654,6 +2654,22 @@ $("#search").addEventListener("input", e => {
 });
 $(".brand").addEventListener("click", () => navigate("home"));
 $$(".header-nav a, .footer-nav a").forEach(a => a.addEventListener("click", () => navigate(a.dataset.route)));
+
+// Light / dark theme toggle
+(function initTheme() {
+  const stored = localStorage.getItem("ll-theme");
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const initial = stored || (prefersDark ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", initial);
+  const toggle = $("#theme-toggle");
+  toggle.checked = initial === "dark";
+  toggle.addEventListener("change", () => {
+    const next = toggle.checked ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("ll-theme", next);
+  });
+})();
+
 window.addEventListener("hashchange", render);
 
 render();
