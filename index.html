@@ -264,6 +264,30 @@
     font-size: 12px;
     font-weight: 500;
   }
+  /* "More Filters" dropdown - aligns with primary filter group baseline */
+  .filter-bar details.more-filters {
+    align-self: flex-end;
+    margin-bottom: 1px;
+  }
+  .filter-bar details.more-filters summary {
+    padding: 5px 24px 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .more-popover {
+    min-width: 320px;
+    max-width: 420px;
+    padding: 14px;
+    gap: 14px !important;
+  }
+  .more-popover .filter-group-h label {
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--ink-faint);
+  }
+  .more-popover .chip-row { gap: 4px; flex-wrap: wrap; }
+  .filter-bar .clear-chip { align-self: flex-end; margin-bottom: 6px; }
   .filter-group-h { display: flex; flex-direction: column; gap: 5px; }
   .filter-group-h label {
     font-size: 10.5px; font-weight: 600;
