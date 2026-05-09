@@ -2790,7 +2790,7 @@ function renderOperatorsPage() {
   // All sports & areas present (for filters)
   const allSports = [...new Set(getActiveSessions().map(s => s.sport))]
     .sort((a,b) => SPORT_META[a].label.localeCompare(SPORT_META[b].label));
-  const allAreas = ["minneapolis","stpaul","west-suburbs","south-suburbs","north-suburbs","east-suburbs","outer-metro"];
+  const allAreas = areasForCurrentMetro();
 
   if (!state.opFilters) state.opFilters = { sport: new Set(), area: new Set(), search: "" };
 
