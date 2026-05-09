@@ -1971,16 +1971,26 @@ function statusPill(status) {
 // Filter out leagues whose end date has passed — auto-cleanup
 const TODAY_ISO = new Date().toISOString().slice(0,10);
 function isActive(s) { return s.endDate >= TODAY_ISO; }
-const ACTIVE_SESSIONS = SESSIONS.filter(isActive);
+
+// Get the metro for a session based on its venue's area
+function sessionMetro(s) {
+  const v = VENUES[s.venueId];
+  return v ? AREA_TO_METRO[v.area] || "twin-cities" : "twin-cities";
+}
+
+// All sessions still active and in the currently selected metro
+function getActiveSessions() {
+  return SESSIONS.filter(s => isActive(s) && sessionMetro(s) === state.metro);
+}
 
 function sportCounts() {
   const c = {};
-  for (const s of ACTIVE_SESSIONS) c[s.sport] = (c[s.sport] || 0) + 1;
+  for (const s of getActiveSessions()) c[s.sport] = (c[s.sport] || 0) + 1;
   return c;
 }
 function sportOpenCounts() {
   const c = {};
-  for (const s of ACTIVE_SESSIONS) if (s.status === "open") c[s.sport] = (c[s.sport] || 0) + 1;
+  for (const s of getActiveSessions()) if (s.status === "open") c[s.sport] = (c[s.sport] || 0) + 1;
   return c;
 }
 function sportVenueCount(sportId) {
