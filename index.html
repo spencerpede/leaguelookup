@@ -1847,10 +1847,45 @@ function navigate(to) {
   $("#search").value = "";
   location.hash = to;
 }
+function updateSEO(view, sport) {
+  // Default
+  let title = "League Lookup — adult sports leagues, Twin Cities metro";
+  let description = "Adult sports leagues across the Twin Cities, in one place. Pick a sport, filter, find a league. Free, no signup, no ads.";
+
+  if (view === "sport" && sport && SPORT_META[sport]) {
+    const label = SPORT_META[sport].label;
+    title = `${label} Leagues in the Twin Cities — League Lookup`;
+    description = `Find an adult ${label.toLowerCase()} league in the Twin Cities metro. Browse by day, surface, format, and operator. Free directory — no signup.`;
+  } else if (view === "operators") {
+    title = "All Operators — League Lookup";
+    description = "Every adult sports league operator in the Twin Cities directory. Browse by sport and area.";
+  } else if (view === "map") {
+    title = "Venue Map — League Lookup";
+    description = "Map of every venue hosting adult sports leagues across the Twin Cities + 50 miles.";
+  } else if (view === "about") {
+    title = "About — League Lookup";
+  } else if (view === "submit") {
+    title = "Submit a League — League Lookup";
+  } else if (view === "feedback") {
+    title = "Feedback — League Lookup";
+  } else if (view === "tip") {
+    title = "Tip Jar — League Lookup";
+  }
+
+  document.title = title;
+  let meta = document.querySelector('meta[name="description"]');
+  if (meta) meta.setAttribute("content", description);
+  let og = document.querySelector('meta[property="og:title"]');
+  if (og) og.setAttribute("content", title);
+  let ogd = document.querySelector('meta[property="og:description"]');
+  if (ogd) ogd.setAttribute("content", description);
+}
+
 function render() {
   const r = parseHash();
   state.view = r.view;
   state.sport = r.sport || null;
+  updateSEO(r.view, r.sport);
   renderTabs();
   if (r.view === "home") renderHome();
   else if (r.view === "sport") renderSport(r.sport);
