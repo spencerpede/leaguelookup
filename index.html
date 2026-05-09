@@ -2268,7 +2268,7 @@ function drawOperators(operators) {
     return;
   }
 
-  $("#op-list").innerHTML = filtered.map(op => {
+  const renderOpCard = (op) => {
     const url = [...op.urls][0];
     const sportsList = [...op.sports].map(s => SPORT_META[s].label).join(", ");
     const areasList = [...op.areas].map(a => AREA_LABELS[a]).join(", ");
@@ -2295,7 +2295,31 @@ function drawOperators(operators) {
         <a class="btn-primary" href="${url}" target="_blank" rel="noopener noreferrer">Visit site</a>
       </div>
     `;
-  }).join("");
+  };
+
+  if (sortBy === "alpha") {
+    // Group by starting letter, render with letter headers
+    const groups = {};
+    filtered.forEach(op => {
+      const ch = op.name[0].toUpperCase();
+      const letter = /[A-Z]/.test(ch) ? ch : "#";
+      (groups[letter] = groups[letter] || []).push(op);
+    });
+    const orderedLetters = Object.keys(groups).sort((a, b) => {
+      if (a === "#") return 1; if (b === "#") return -1;
+      return a.localeCompare(b);
+    });
+    $("#op-list").innerHTML = orderedLetters.map(letter => `
+      <div class="op-letter-section">
+        <div class="op-letter-header">${letter}</div>
+        <div class="op-letter-grid">
+          ${groups[letter].map(renderOpCard).join("")}
+        </div>
+      </div>
+    `).join("");
+  } else {
+    $("#op-list").innerHTML = filtered.map(renderOpCard).join("");
+  }
 }
 
 function renderAboutPage() {
