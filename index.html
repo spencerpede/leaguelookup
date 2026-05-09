@@ -1861,18 +1861,33 @@ function buildSportFilters(sportId, allForSport) {
     `;
   };
 
-  $("#sport-filters").innerHTML = [
+  // Primary filters — always visible as chips at the top
+  const primaryHtml = [
     filterHtml("day", DAY_LABELS, "Day of Week", true),
-    filterHtml("status", STATUS_LABELS, "Registration"),
-    filterHtml("operator", null, "Operator"),
     filterHtml("teamSize", null, "Team Size / Format"),
+    filterHtml("status", STATUS_LABELS, "Registration"),
     filterHtml("surface", SURFACE_LABELS, "Surface"),
+    filterHtml("operator", null, "Operator")
+  ].filter(Boolean).join("");
+
+  // Secondary filters — collapsed inside a "More Filters" dropdown
+  const secondaryHtml = [
     filterHtml("season", SEASON_LABELS, "Season"),
     filterHtml("format", FORMAT_LABELS, "Coed / Men's / Women's"),
     filterHtml("skill", { "all-levels":"All Levels", beginner:"Beginner", recreational:"Rec", intermediate:"Intermediate", competitive:"Competitive" }, "Skill"),
-    filterHtml("setting", { indoor:"Indoor", outdoor:"Outdoor" }, "Setting"),
-    `<button class="clear-chip" id="clear-filters">Clear All</button>`
-  ].join("");
+    filterHtml("setting", { indoor:"Indoor", outdoor:"Outdoor" }, "Setting")
+  ].filter(Boolean).join("");
+
+  $("#sport-filters").innerHTML = `
+    ${primaryHtml}
+    ${secondaryHtml ? `
+      <details class="multi-select more-filters" id="more-filters">
+        <summary id="more-filters-summary">More Filters</summary>
+        <div class="multi-popover more-popover">${secondaryHtml}</div>
+      </details>
+    ` : ""}
+    <button class="clear-chip" id="clear-filters">Clear All</button>
+  `;
 
   // Chip-based filters (everything except operator)
   $$("#sport-filters .chip[data-filter]").forEach(c => {
