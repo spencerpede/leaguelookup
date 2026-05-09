@@ -212,7 +212,7 @@
   aside.sidebar {
     background: var(--surface);
     border-right: 1px solid var(--border);
-    padding: 18px 12px;
+    padding: 12px 8px;
     position: sticky;
     top: 65px;
     align-self: start;
@@ -220,37 +220,46 @@
     overflow-y: auto;
   }
   aside.sidebar .sidebar-section {
-    font-size: 10.5px; font-weight: 600;
+    font-size: 10px; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.06em;
     color: var(--ink-faint);
-    padding: 8px 12px 6px;
-    margin-top: 6px;
+    padding: 6px 10px 4px;
+    margin-top: 8px;
   }
   aside.sidebar .sidebar-section:first-child { margin-top: 0; }
   aside.sidebar .sidebar-letter {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent);
-    padding: 6px 12px 2px;
-    margin-top: 6px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 2px;
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 10px 2px;
+    margin: 0;
+    position: relative;
+  }
+  aside.sidebar .sidebar-letter::after {
+    content: "";
+    position: absolute;
+    left: 10px; right: 10px; bottom: 1px;
+    height: 1px;
+    background: var(--border);
+    opacity: 0.5;
   }
   aside.sidebar .sidebar-popular {
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 10px;
-    color: var(--ink-faint);
+    color: var(--accent);
+    opacity: 1;
   }
+  aside.sidebar .sidebar-popular::after { background: var(--accent); opacity: 0.3; }
   aside.sidebar button.tab {
     display: flex; align-items: center;
     width: 100%; text-align: left;
-    padding: 7px 12px;
+    padding: 4px 10px;
     color: var(--ink-soft);
-    font-size: 13.5px; font-weight: 500;
+    font-size: 13px; font-weight: 500;
     border-radius: var(--radius-sm);
     transition: all .12s ease;
-    margin-bottom: 1px;
+    margin-bottom: 0;
+    line-height: 1.45;
   }
   aside.sidebar button.tab:hover { background: var(--bg); color: var(--ink); }
   aside.sidebar button.tab.active {
