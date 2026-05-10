@@ -780,6 +780,70 @@
   }
   .link-disclaimer strong { color: var(--ink-soft); }
 
+  /* Coverage notice — shown on metros where we're still building the directory */
+  .coverage-notice {
+    margin: -14px 0 24px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #fef9e7 0%, #fef3c7 100%);
+    border: 1px solid #fde68a;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  [data-theme="dark"] .coverage-notice {
+    background: linear-gradient(135deg, #422006 0%, #3a2502 100%);
+    border-color: #78350f;
+  }
+  .coverage-notice .cn-badge {
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #92400e;
+    background: #fde68a;
+    padding: 4px 9px;
+    border-radius: 999px;
+  }
+  [data-theme="dark"] .coverage-notice .cn-badge { color: #fef3c7; background: #78350f; }
+  .coverage-notice .cn-text {
+    flex: 1;
+    min-width: 200px;
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  .coverage-notice .cn-text strong { color: var(--ink); }
+  .coverage-notice .cn-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .coverage-notice .cn-actions button {
+    background: var(--surface);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .coverage-notice .cn-actions button:hover {
+    background: var(--accent);
+    color: white;
+  }
+  .coverage-notice .cn-actions button.primary {
+    background: var(--accent);
+    color: white;
+  }
+  .coverage-notice .cn-actions button.primary:hover {
+    filter: brightness(1.1);
+  }
+
   /* Map */
   .map-shell {
     display: grid;
