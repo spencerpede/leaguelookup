@@ -4168,15 +4168,17 @@ $("#search").addEventListener("input", e => {
 $(".brand").addEventListener("click", () => navigate("home"));
 $$(".header-nav a, .footer-nav a").forEach(a => a.addEventListener("click", () => navigate(a.dataset.route)));
 
-// Metro switcher
+// Metro switcher — sorted alphabetically by display name
 (function initMetro() {
   const sel = $("#metro-select");
-  Object.keys(METROS).forEach(key => {
-    const opt = document.createElement("option");
-    opt.value = key;
-    opt.textContent = METROS[key].name;
-    sel.appendChild(opt);
-  });
+  Object.keys(METROS)
+    .sort((a, b) => METROS[a].name.localeCompare(METROS[b].name))
+    .forEach(key => {
+      const opt = document.createElement("option");
+      opt.value = key;
+      opt.textContent = METROS[key].name;
+      sel.appendChild(opt);
+    });
   sel.value = state.metro;
   sel.addEventListener("change", () => {
     state.metro = sel.value;
