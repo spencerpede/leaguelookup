@@ -4514,8 +4514,42 @@ function renderSportResults(sportId, all) {
     return;
   }
 
+  // Sort: real leagues first, directory entries second; within each group keep the active sort
+  filtered.sort((a, b) => {
+    const ad = (a.kind === "directory") ? 1 : 0;
+    const bd = (b.kind === "directory") ? 1 : 0;
+    return ad - bd;
+  });
+
   c.innerHTML = `<div class="session-list">${filtered.map(s => {
     const v = VENUES[s.venueId];
+
+    // Directory entries (operators we list but don't have a specific schedule for)
+    // get a distinct, lighter card so users know the link goes to the operator's
+    // site for the live schedule — we don't claim a specific day/time/price.
+    if (s.kind === "directory") {
+      return `
+        <div class="session directory">
+          <div class="what">
+            <div class="what-top">
+              <h3>${s.operator} — ${SPORT_META[s.sport].label}</h3>
+              <span class="dir-pill">Operator listing</span>
+            </div>
+            <div class="dir-sub">
+              ${s.operator} runs ${SPORT_META[s.sport].label.toLowerCase()} leagues in ${METROS[state.metro].name}.
+              Visit their site for the current schedule, dates, and pricing.
+            </div>
+          </div>
+          <div class="cta">
+            <a class="visit-link" href="${s.url}" target="_blank" rel="noopener noreferrer">
+              Visit operator
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
     const dayDisplay = s.day === "daily" ? "Daily" : (DAY_LABELS[s.day] || s.day).toUpperCase();
 
     // Title pattern: "League name — Operator". Skip operator append if the
