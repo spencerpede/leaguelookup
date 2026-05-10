@@ -1,11 +1,2 @@
-# Static files — must be served as-is (not rewritten to index.html)
-/sitemap.xml         /sitemap.xml         200
-/robots.txt          /robots.txt          200
-/og-image.png        /og-image.png        200
-/og-image.svg        /og-image.svg        200
-/logo-square.png     /logo-square.png     200
-/logo-square.svg     /logo-square.svg     200
-/favicon.ico         /favicon.ico         200
-
-# SPA catch-all — every other path serves index.html so the JS router can take over
-/*                   /index.html          200
+# SPA routing is handled by wrangler.jsonc (assets.not_found_handling = "single-page-application").
+# Static files are served at their literal paths by Workers Assets — no rules needed here.
