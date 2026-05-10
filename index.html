@@ -4284,14 +4284,26 @@ function renderHome() {
       ${sports.map(s => {
         const venues = sportVenueCount(s);
         const operators = sportOperatorCount(s);
+        const leagueCount = leagues[s] || 0;
+        const directoryCount = directory[s] || 0;
+        // Stats line: prefer "X verified leagues" when we have real data, fall
+        // back to operator listing count when we only have directory entries.
+        let statsLine;
+        if (leagueCount > 0 && directoryCount > 0) {
+          statsLine = `${leagueCount} verified league${leagueCount === 1 ? "" : "s"} · ${directoryCount} operator listing${directoryCount === 1 ? "" : "s"}`;
+        } else if (leagueCount > 0) {
+          statsLine = `${leagueCount} verified league${leagueCount === 1 ? "" : "s"}`;
+        } else {
+          statsLine = `${directoryCount} operator listing${directoryCount === 1 ? "" : "s"}`;
+        }
         return `
         <button class="sport-tile" data-route="sport/${s}">
           <div class="name">${SPORT_META[s].label}</div>
           <div class="stats">
-            ${counts[s]} league${counts[s] === 1 ? "" : "s"}
-            ${open[s] ? `· <span class="open-dot"></span>${open[s]} open` : ""}
+            ${statsLine}
+            ${open[s] && leagueCount > 0 ? `· <span class="open-dot"></span>${open[s]} open` : ""}
           </div>
-          <div class="operators">${venues} venue${venues === 1 ? "" : "s"} · ${operators} operator${operators === 1 ? "" : "s"}</div>
+          <div class="operators">${operators} operator${operators === 1 ? "" : "s"} · ${venues} venue${venues === 1 ? "" : "s"}</div>
         </button>
       `;}).join("")}
     </div>
