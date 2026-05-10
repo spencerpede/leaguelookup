@@ -3535,12 +3535,12 @@ $$(".header-nav a, .footer-nav a").forEach(a => a.addEventListener("click", () =
   sel.addEventListener("change", () => {
     state.metro = sel.value;
     localStorage.setItem("ll-metro", state.metro);
-    // Reset to home when switching metros
-    if (state.view === "sport") {
-      navigate("home");
-    } else {
-      render();
-    }
+    // Always reset to metro home on switch and update the URL
+    history.pushState(null, "", "/" + state.metro);
+    Object.keys(state.filters).forEach(k => state.filters[k].clear());
+    state.search = "";
+    state.sportSubview = "list";
+    render();
   });
 })();
 
