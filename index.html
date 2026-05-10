@@ -2521,24 +2521,58 @@ function sportOperatorCount(sportId) {
 /* ============================================================
    ROUTE
    ============================================================ */
+// Parse pathname-based routes. URL formats:
+//   /                            -> home (current metro)
+//   /<metro>                     -> metro home
+//   /<metro>/sport/<id>          -> sport page in metro
+//   /<metro>/operators           -> operators page in metro
+//   /<metro>/map                 -> map page in metro
+//   /<metro>/sport               -> ignored, fall through to home
+//   /<global>                    -> about, submit, feedback, tip, operators, map, sport/<id>
 function parseHash() {
-  const h = location.hash.replace(/^#/, "");
-  if (!h || h === "home") return { view: "home" };
-  if (h === "map") return { view: "map" };
-  if (h === "about") return { view: "about" };
-  if (h === "operators") return { view: "operators" };
-  if (h === "submit") return { view: "submit" };
-  if (h === "feedback") return { view: "feedback" };
-  if (h === "tip") return { view: "tip" };
-  if (h.startsWith("sport/")) return { view: "sport", sport: h.slice(6) };
+  const path = (location.pathname || "/").replace(/^\/+|\/+$/g, "");
+  if (!path) return { view: "home" };
+  const parts = path.split("/");
+  // First segment is a metro slug?
+  if (METROS[parts[0]]) {
+    const metroSlug = parts[0];
+    state.metro = metroSlug;
+    try { localStorage.setItem("ll-metro", metroSlug); } catch {}
+    if (parts.length === 1) return { view: "home" };
+    if (parts[1] === "sport" && parts[2]) return { view: "sport", sport: parts[2] };
+    if (parts[1] === "operators") return { view: "operators" };
+    if (parts[1] === "map") return { view: "map" };
+    return { view: "home" };
+  }
+  // Global routes
+  if (parts[0] === "about") return { view: "about" };
+  if (parts[0] === "submit") return { view: "submit" };
+  if (parts[0] === "feedback") return { view: "feedback" };
+  if (parts[0] === "tip") return { view: "tip" };
+  if (parts[0] === "map") return { view: "map" };
+  if (parts[0] === "operators") return { view: "operators" };
+  if (parts[0] === "sport" && parts[1]) return { view: "sport", sport: parts[1] };
   return { view: "home" };
 }
+
+function buildUrl(to) {
+  // Global pages don't include metro in URL
+  if (["about", "submit", "feedback", "tip"].includes(to)) return "/" + to;
+  if (to === "home") return "/" + state.metro;
+  return "/" + state.metro + "/" + to;
+}
+
 function navigate(to) {
   Object.keys(state.filters).forEach(k => state.filters[k].clear());
   state.search = "";
   state.sportSubview = "list";
-  $("#search").value = "";
-  location.hash = to;
+  const search = $("#search");
+  if (search) search.value = "";
+  const url = buildUrl(to);
+  if (location.pathname !== url) {
+    history.pushState(null, "", url);
+  }
+  render();
 }
 function updateSEO(view, sport) {
   const metroName = METROS[state.metro].name;
