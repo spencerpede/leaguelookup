@@ -4004,6 +4004,22 @@ function sportCounts() {
   for (const s of getActiveSessions()) c[s.sport] = (c[s.sport] || 0) + 1;
   return c;
 }
+// Counts of real (verified) league entries vs directory operator listings.
+// Used on the home tile to be honest about what we actually have.
+function sportLeagueCounts() {
+  const c = {};
+  for (const s of getActiveSessions()) {
+    if (s.kind !== "directory") c[s.sport] = (c[s.sport] || 0) + 1;
+  }
+  return c;
+}
+function sportDirectoryCounts() {
+  const c = {};
+  for (const s of getActiveSessions()) {
+    if (s.kind === "directory") c[s.sport] = (c[s.sport] || 0) + 1;
+  }
+  return c;
+}
 function sportOpenCounts() {
   const c = {};
   for (const s of getActiveSessions()) if (s.status === "open") c[s.sport] = (c[s.sport] || 0) + 1;
