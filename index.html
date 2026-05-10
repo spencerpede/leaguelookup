@@ -4239,9 +4239,12 @@ function renderTabs() {
    ============================================================ */
 function renderHome() {
   const counts = sportCounts();
+  const leagues = sportLeagueCounts();
+  const directory = sportDirectoryCounts();
   const open = sportOpenCounts();
+  // Sort by verified leagues first (real data wins), fall back to total count
   const sports = Object.keys(SPORT_META).filter(s => counts[s])
-    .sort((a,b) => counts[b] - counts[a]);
+    .sort((a,b) => (leagues[b] || 0) - (leagues[a] || 0) || counts[b] - counts[a]);
 
   // Total active sessions in this metro — used to decide if we should show
   // the "still building" coverage notice.
