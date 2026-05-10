@@ -3297,11 +3297,43 @@ function renderHome() {
   const sports = Object.keys(SPORT_META).filter(s => counts[s])
     .sort((a,b) => counts[b] - counts[a]);
 
+  // Total active sessions in this metro — used to decide if we should show
+  // the "still building" coverage notice.
+  const totalSessions = getActiveSessions().length;
+  // Threshold: under 20 active sessions = thin coverage; show the notice.
+  // Twin Cities (110+) and Chicago (50+) are full; everywhere else is thin
+  // until we backfill more real session data.
+  const isThinMetro = totalSessions < 20;
+  const metroName = METROS[state.metro].name;
+
+  // Hero copy adapts to coverage level.
+  const heroSubtitle = isThinMetro
+    ? `Adult sports leagues across ${metroName}. Just getting started here — help us cover every league.`
+    : `Adult sports leagues across ${metroName}, in one place. Pick a sport, filter, sign up.`;
+
+  // Coverage notice block — only renders when the metro is thin.
+  const coverageHTML = isThinMetro ? `
+    <div class="coverage-notice">
+      <span class="cn-badge">Beta</span>
+      <div class="cn-text">
+        We're still building our ${metroName} directory.
+        <strong>${totalSessions} league${totalSessions === 1 ? "" : "s"}</strong>
+        listed so far across <strong>${sports.length} sport${sports.length === 1 ? "" : "s"}</strong>.
+        Know one we're missing? Tell us — it takes 30 seconds.
+      </div>
+      <div class="cn-actions">
+        <button class="primary" data-route="submit">Submit a league</button>
+        <button data-route="feedback">Send feedback</button>
+      </div>
+    </div>
+  ` : "";
+
   $("#app").innerHTML = `
     <div class="hero">
       <h1>Find Your League.</h1>
-      <p>Adult sports leagues across ${METROS[state.metro].name}, in one place. Pick a sport, filter, sign up.</p>
+      <p>${heroSubtitle}</p>
     </div>
+    ${coverageHTML}
     <div class="sport-grid">
       ${sports.map(s => {
         const venues = sportVenueCount(s);
